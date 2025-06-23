@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Readiick</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- google font -->
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- font awesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
+
+
+
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff4f0;
+    }
+    .navbar {
+      background-color: #ffccbc;
+    }
+    .nav-link, .navbar-brand {
+      color: #333;
+      font-weight: 500;
+    }
+    .nav-link:hover, .navbar-brand:hover {
+      color: #000;
+    }
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .product-img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      padding: 2px 6px;
+    }
+    .icon-text {
+      display: inline-flex;
+      align-items: center;
+    }
+    .icon-text i {
+      margin-right: 6px;
+    }
+    .cart-icon-animate {
+      animation: bounce 0.5s;
+    }
+    @keyframes bounce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .hero-section {
+  background: url('hero-bg.jpg') center center/cover no-repeat;
+  height: 85vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.hero-section .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(93, 64, 55, 0.7),   /* Darker brown, more contrast */
+    rgba(78, 52, 46, 0.7)
+  );
+  z-index: 1;
+}
+
+
+.hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* navbar */
+
+.navbar .nav-link {
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  color: #000;
+}
+
+.navbar-brand,
+.nav-link {
+  font-weight: 600;
+  color: #333;
+}
+
+/*  */
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.offcanvas .badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+}
+
+  /* scroll top */
+    section {
+  scroll-margin-top: 80px; /* or your navbar height */
+}
+
+/* zoom viewer */
+#zoomViewer {
+    cursor: zoom-out;
+    transition: opacity 0.3s ease;
+  }
+
+
+  /* scroll to top */
+
+  #scrollTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 999;
+  background-color: #ffccbc;
+  color: #e65100;
+  border: none;
+  outline: none;
+  padding: 12px 15px;
+  border-radius: 50%;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+#scrollTopBtn.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#scrollTopBtn:hover {
+  background-color: #e65100;
+  color: #fff;
+}
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm" style="background: linear-gradient(90deg, #ffccbc 0%, #ffe0d0 100%); font-family: 'Poppins', sans-serif;">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-5 text-dark" href="#">
+      <i class="fas fa-book-open me-2" style="color: #e65100;"></i>Readiick
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
+        <li class="nav-item position-relative">
+          <a class="nav-link icon-text fw-semibold text-dark" href="#" id="cart-icon" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <i class="fas fa-shopping-cart me-1"></i>Cart
+            <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section id="hero" class="hero-section" style="position: relative; color: #fff;">
+  <div class="overlay"></div>
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold mb-3" style="color: #fff;">
+      <i class="fas fa-book-open me-2"></i>eBooks at 
+      <span class="badge rounded-pill" style="background-color: #e65100; color: #fff;">$2 Each</span>
+    </h1>
+
+    <p class="lead mb-4" style="color: #f5f5f5;">
+      <i class="fas fa-tags me-2"></i>Buy any 
+      <strong>5 eBooks</strong> for only 
+      <span class="badge rounded-pill" style="background-color: #bf360c; color: #fff;">$5</span>
+      <br>
+      <span class="small fst-italic d-block mt-2" style="color: #e0e0e0;">
+        All eBooks are in <strong>PDF format</strong>.
+      </span>
+    </p>
+
+    <a href="#ebooks" 
+       class="btn btn-lg fw-semibold text-white px-4 py-2 animate__animated animate__pulse animate__infinite" 
+       style="background-color: #ff7043; border: none;">
+      <i class="fas fa-book me-2"></i>Browse eBooks
+    </a>
+  </div>
+</section>
+
+
+
+
+
+<!-- Product Section -->
+<section id="ebooks" class="container my-5">
+  <div class="row g-4 py-3" id="product-list">
+    <!-- eBook cards inserted by JavaScript -->
+  </div>
+</section>
+<div id="modal-container"></div>
+
+
+<!-- Rest of your code remains the same -->
+
+<footer class="text-dark pt-5 pb-3" style="background-color: #ffe0d0; font-family: 'Poppins', sans-serif;">
+  <div class="container">
+    <div class="row g-4">
+      
+      <!-- Column 1: Brand -->
+      <div class="col-md-4">
+        <h5 class="fw-bold"><i class="fas fa-book-open me-2" style="color: #e65100;"></i>Readiick</h5>
+        <p class="text-muted small">Affordable digital books anytime, anywhere. Explore and learn with ease.</p>
+      </div>
+
+      <!-- Column 2: Links -->
+      <div class="col-md-4">
+        <h6 class="fw-semibold mb-3">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-dark text-decoration-none">Home</a></li>
+          <li><a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
+          <li><a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a></li>
+
+         
+
+
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div class="col-md-4">
+        <h6 class="fw-semibold mb-3">Contact</h6>
+        <p class="mb-1 small">
+          <i class="fas fa-envelope me-2"></i>
+          <a href="mailto:your@email.com" class="text-dark text-decoration-none">ebooksf4rsale@gmail.com</a>
+        </p>
+        <!-- Optional social icons -->
+        <!-- <div class="mt-3">
+          <a href="#" class="me-3 text-dark"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-dark"><i class="fab fa-instagram fa-lg"></i></a>
+        </div> -->
+      </div>
+    </div>
+
+    <hr class="my-4" />
+    <div class="text-center small text-muted">
+      &copy; <span id="year"></span> Readiick. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+<!-- Cart Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header border-bottom-0" style="background-color: #ffccbc;">
+        <h5 class="modal-title fw-semibold">
+          <i class="fas fa-shopping-cart me-2"></i>Your Cart
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body px-4">
+        <ul class="list-group list-group-flush mb-3" id="cart-items">
+          <!-- Dynamic eBook list goes here -->
+        </ul>
+
+        <div class="d-flex justify-content-between align-items-center border-top pt-3">
+          <span class="fw-bold fs-5">Total:</span>
+          <span class="fw-bold fs-5" id="cart-total">$0</span>
+        </div>
+      </div>
+
+      <div class="modal-footer border-top-0 px-4 pb-4">
+        <a href="payment.html"><button id="checkout-btn" class="btn w-100 fw-semibold text-dark" style="background-color: #ffccbc;">
+          Proceed to Checkout
+        </button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- sidebar modal -->
+
+<!-- Mobile Drawer Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel" style="font-family: 'Poppins', sans-serif;">
+  <div class="offcanvas-header text-dark" style="background: linear-gradient(90deg, #ffccbc 0%, #ffe0d0 100%);">
+    <h5 class="offcanvas-title fw-bold mb-0" id="mobileMenuLabel">
+      <i class="fas fa-book-open me-2"style="color: #e65100;"></i>Readiick
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body px-4">
+    <ul class="list-unstyled mb-0">
+      <!-- Optional Home & About -->
+      <!--
+      <li class="mb-4">
+        <a class="text-decoration-none text-dark d-flex align-items-center fs-6" href="#hero">
+          <i class="fas fa-home me-2"></i> Home
+        </a>
+      </li>
+      <li class="mb-4">
+        <a class="text-decoration-none text-dark d-flex align-items-center fs-6" href="#about">
+          <i class="fas fa-info-circle me-2"></i> About
+        </a>
+      </li>
+      -->
+      <li class="mb-4">
+        <a class="text-decoration-none text-dark d-flex align-items-center fs-6" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
+          <i class="fas fa-shopping-cart me-2"></i>Cart
+          <span class="badge bg-danger ms-auto" id="cart-count-mobile">0</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #ffccbc;">
+        <h5 class="modal-title">Privacy Policy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Personal Data:</strong> We do not collect or store any personal information such as email addresses or names.</p>
+  <p><strong>Payments:</strong> All transactions are securely processed via PayPal. We do not store or access your payment information.</p>
+  <p><strong>Download Delivery:</strong> eBook download links are provided immediately after a successful payment on the confirmation page. No email is required or collected to access your purchases.</p>
+  <p><strong>Cookies:</strong> We may use cookies for basic site functionality such as cart management. These do not store personal data.</p>
+  <p><strong>Contact:</strong> If you encounter any issues, you may reach out to us directly using the contact information provided on our website.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #ffccbc;">
+        <h5 class="modal-title">Terms of Service</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>1. Overview:</strong> This website offers digital eBooks available for purchase through PayPal. By using this site, you agree to the terms outlined below.</p>
+
+  <p><strong>2. Payment:</strong> All payments are securely processed via PayPal. We do not collect or store your credit card or payment information.</p>
+
+  <p><strong>3. Product Delivery:</strong> Download links for your selected eBooks are provided immediately after successful payment, on the confirmation page. No email is required to access your files.</p>
+
+  <p><strong>4. Refunds:</strong> Due to the digital nature of the products, all sales are final. We do not offer refunds once a purchase is completed.</p>
+
+  <p><strong>5. License:</strong> All eBooks are for personal use only. Redistribution, resale, or commercial use of the files is prohibited.</p>
+
+  <p><strong>6. Changes:</strong> We may update these terms at any time. Continued use of the website means you accept any changes to the Terms of Service.</p>
+
+  <p><strong>7. Contact:</strong> For any issues or questions, please reach out to us using the contact details provided on the site.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Dynamic eBook Modal -->
+<div class="modal fade" id="ebookModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header" style="background-color: #ffccbc;">
+        <h5 class="modal-title fw-bold" id="modalTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body px-4 py-3">
+        <div class="row align-items-start">
+          <!-- Image Section -->
+          <div class="col-md-4 text-center mb-3 mb-md-0">
+            <img id="modalImage" src="" alt="Book Cover" class="img-fluid rounded shadow-sm" style="max-height: 250px;">
+          </div>
+
+          <!-- Details Section -->
+          <div class="col-md-8">
+            <p class="text-muted mb-2" id="modalAuthor"></p>
+            <p class="mb-2" id="modalFormat"></p>
+            <p id="modalDescription" style="white-space: pre-line;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Zoom Image Viewer -->
+<div id="zoomViewer" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-flex align-items-center justify-content-center" style="z-index: 1056;">
+  <img id="zoomImage" src="" alt="Zoomed Cover" class="img-fluid shadow-lg rounded" style="max-height: 90vh;">
+</div>
+
+
+
+
+<!-- Scroll to Top Button -->
+<button onclick="scrollToTop()" id="scrollTopBtn" title="Go to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+
+
+<!-- Bootstrap & JS -->
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+ 
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const ebooks = [
+  {
+    id: 1,
+    title: "Atomic Habits",
+    author: "James Clear",
+    price: 2,
+    img: "ebook1.jpg",
+    filename: "ebook1.pdf",
+    format: "PDF",
+    description: `The #1 New York Times bestseller. Over 20 million copies sold!
+
+Tiny Changes, Remarkable Results.
+
+No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.
+
+If you're having trouble changing your habits, the problem isn't you. The problem is your system.
+
+Learn how to:
+• make time for new habits (even when life gets crazy);
+• overcome a lack of motivation and willpower;
+• design your environment to make success easier;
+• get back on track when you fall off course;
+...and much more.
+
+Atomic Habits will reshape the way you think about progress and success.`
+  },
+
+{
+    id: 2,
+    title: "Mindset: The New Psychology of Success",
+    author: "Carol S. Dweck",
+    price: 2,
+    img: "ebook2.jpg",
+    filename: "ebook2.pdf",
+    format: "PDF",
+    description: `From the renowned psychologist who introduced the world to “growth mindset” comes this updated edition of the million-copy bestseller—featuring transformative insights into redefining success, building lifelong resilience, and supercharging self-improvement.
+
+“Through clever research studies and engaging writing, Dweck illuminates how our beliefs about our capabilities exert tremendous influence on how we learn and which paths we take in life.”—Bill Gates, GatesNotes
+
+“It’s not always the people who start out the smartest who end up the smartest.”
+
+After decades of research, world-renowned Stanford University psychologist Carol S. Dweck, Ph.D., discovered a simple but groundbreaking idea: the power of mindset. In this brilliant book, she shows how success in school, work, sports, the arts, and almost every area of human endeavor can be dramatically influenced by how we think about our talents and abilities. People with a fixed mindset—those who believe that abilities are fixed—are less likely to flourish than those with a growth mindset—those who believe that abilities can be developed. Mindset reveals how great parents, teachers, managers, and athletes can put this idea to use to foster outstanding accomplishment.
+
+In this edition, Dweck offers new insights into her now famous and broadly embraced concept. She introduces a phenomenon she calls false growth mindset and guides people toward adopting a deeper, truer growth mindset. She also expands the mindset concept beyond the individual, applying it to the cultures of groups and organizations. With the right mindset, you can motivate those you lead, teach, and love—to transform their lives and your own.`
+  },
+
+{
+    id: 3,
+    title: "The Courage to Be Disliked",
+    author: "Ichiro Kishimi, Fumitake Koga",
+    price: 2,
+    img: "ebook3.jpg",
+    filename: "ebook3.pdf",
+    format: "PDF",
+    description: `An international bestseller and TikTok sensation with more than 10 million copies sold worldwide, The Courage to Be Disliked is a transformative and practical guide to personal happiness and self-fulfillment.
+
+Now you can unlock your full potential and free yourself from the shackles of past traumas and societal expectations to find true personal happiness. Based on the theories of renowned psychologist Alfred Adler, this book guides you through the principles of self-forgiveness, self-care, and mind decluttering in a straightforward, easy-to-digest style that’s accessible to all.
+
+The Courage to Be Disliked unfolds as a dialogue between a philosopher and a young man, who, over the course of five enriching conversations, realizes that each of us is in control of our life’s direction, independent of past burdens and expectations of others.
+
+Wise, empowering, and profoundly liberating, this book is a life-changing experience that shows you a path to lasting happiness and how to finally be the person you truly want to be. Millions are already benefiting from its teachings—and you can be next.`
+  },
+
+{
+    id: 4,
+    title: "Ego Is the Enemy",
+    author: "Ryan Holiday",
+    price: 2,
+    img: "ebook4.jpg",
+    filename: "ebook4.pdf",
+    format: "PDF",
+    description: `The instant Wall Street Journal, USA Today, and international bestseller
+
+“While the history books are filled with tales of obsessive visionary geniuses who remade the world in their image with sheer, almost irrational force, I’ve found that history is also made by individuals who fought their egos at every turn, who eschewed the spotlight, and who put their higher goals above their desire for recognition.” —from the prologue
+ 
+Many of us insist the main impediment to a full, successful life is the outside world. In fact, the most common enemy lies within: our ego. Early in our careers, it impedes learning and the cultivation of talent. With success, it can blind us to our faults and sow future problems. In failure, it magnifies each blow and makes recovery more difficult. At every stage, ego holds us back.
+ 
+Ego Is the Enemy draws on a vast array of stories and examples, from literature to philosophy to his­tory. We meet fascinating figures such as George Marshall, Jackie Robinson, Katharine Graham, Bill Belichick, and Eleanor Roosevelt, who all reached the highest levels of power and success by con­quering their own egos. Their strategies and tactics can be ours as well.
+ 
+In an era that glorifies social media, reality TV, and other forms of shameless self-promotion, the battle against ego must be fought on many fronts. Armed with the lessons in this book, as Holiday writes, “you will be less invested in the story you tell about your own specialness, and as a result, you will be liberated to accomplish the world-changing work you’ve set out to achieve.”`
+  },
+
+  {
+    id: 5,
+    title: "Ikigai",
+    author: "Héctor García and Francesc Miralles",
+    price: 2,
+    img: "ebook5.jpg",
+    filename: "ebook5.pdf",
+    format: "PDF",
+    description: `INTERNATIONAL BESTSELLER • 2 MILLION+ COPIES SOLD WORLDWIDE
+
+“Workers looking for more fulfilling positions should start by identifying their ikigai.” ―Business Insider
+ 
+“One of the unintended—yet positive—consequences of the [pandemic] is that it is forcing people to reevaluate their jobs, careers, and lives. Use this time wisely, find your personal ikigai, and live your best life.” ―Forbes
+
+Find your ikigai (pronounced ee-key-guy) to live longer and bring more meaning and joy to all your days.
+
+“Only staying active will make you want to live a hundred years.” —Japanese proverb
+ 
+According to the Japanese, everyone has an ikigai—a reason for living. And according to the residents of the Japanese village with the world’s longest-living people, finding it is the key to a happier and longer life. Having a strong sense of ikigai—where what you love, what you’re good at, what you can get paid for, and what the world needs all overlap—means that each day is infused with meaning. It’s the reason we get up in the morning. It’s also the reason many Japanese never really retire (in fact there’s no word in Japanese that means retire in the sense it does in English): They remain active and work at what they enjoy, because they’ve found a real purpose in life—the happiness of always being busy.
+
+In researching this book, the authors interviewed the residents of the Japanese village with the highest percentage of 100-year-olds—one of the world’s Blue Zones. Ikigai reveals the secrets to their longevity and happiness: how they eat, how they move, how they work, how they foster collaboration and community, and—their best-kept secret—how they find the ikigai that brings satisfaction to their lives. And it provides practical tools to help you discover your own ikigai. Because who doesn’t want to find happiness in every day?
+
+What’s your ikigai?`
+  },
+
+
+  {
+    id: 6,
+    title: "The 5AM Club",
+    author: "Robin Sharma",
+    price: 2,
+    img: "ebook6.jpg",
+    filename: "ebook6.pdf",
+    format: "PDF",
+    description: `Legendary leadership and elite performance expert Robin Sharma introduced The 5am Club concept over twenty years ago, based on a revolutionary morning routine that has helped his clients maximize their productivity, activate their best health and bulletproof their serenity in this age of overwhelming complexity.
+
+      Now, in this life-changing book, handcrafted by the author over a rigorous four-year period, you will discover the early-rising habit that has helped so many accomplish epic results while upgrading their happiness, helpfulness and feelings of aliveness.
+
+      Through an enchanting—and often amusing—story about two struggling strangers who meet an eccentric tycoon who becomes their secret mentor, The 5am Club will walk you through:
+
+How great geniuses, business titans and the world’s wisest people start their mornings to produce astonishing achievements
+A little-known formula you can use instantly to wake up early feeling inspired, focused and flooded with a fiery drive to get the most out of each day
+A step-by-step method to protect the quietest hours of daybreak so you have time for exercise, self-renewal and personal growth
+A neuroscience-based practice proven to help make it easy to rise while most people are sleeping, giving you precious time for yourself to think, express your creativity and begin the day peacefully instead of being rushed
+“Insider-only” tactics to defend your gifts, talents and dreams against digital distraction and trivial diversions so you enjoy fortune, influence and a magnificent impact on the world
+Part manifesto for mastery, part playbook for genius-grade productivity and part companion for a life lived beautifully, The 5am Club is a work that will transform your life. Forever.`
+  },
+
+
+  {
+    id: 7,
+    title: "The 80/20 Principle",
+    author: "Richard Koch",
+    price: 2,
+    img: "ebook7.jpg",
+    filename: "ebook7.pdf",
+    format: "PDF",
+    description: `Be more effective with less effort by learning how to identify and leverage the 80/20 principle: that 80 percent of all our results in business and in life stem from a mere 20 percent of our efforts.
+
+The 80/20 principle is one of the great secrets of highly effective people and organizations.
+
+Did you know, for example, that 20 percent of customers account for 80 percent of revenues? That 20 percent of our time accounts for 80 percent of the work we accomplish? The 80/20 Principle shows how we can achieve much more with much less effort, time, and resources, simply by identifying and focusing our efforts on the 20 percent that really counts. Although the 80/20 principle has long influenced today's business world, author Richard Koch reveals how the principle works and shows how we can use it in a systematic and practical way to vastly increase our effectiveness, and improve our careers and our companies.
+
+The unspoken corollary to the 80/20 principle is that little of what we spend our time on actually counts. But by concentrating on those things that do, we can unlock the enormous potential of the magic 20 percent, and transform our effectiveness in our jobs, our careers, our businesses, and our lives.`
+  },
+
+
+  {
+    id: 8,
+    title: "Limitless",
+    author: "Jim Kwik",
+    price: 2,
+    img: "ebook8.jpg",
+    filename: "ebook8.pdf",
+    format: "PDF",
+    description: `For over 30 years, Jim Kwik, the world-renowned brain coach, has been the secret weapon of success for a diverse range of high achievers, including actors, athletes, CEOs, and business pioneers. In Limitless, he reveals science-based practices and field-tested tips to accelerate self-learning, communication, memory, focus, recall, and speed reading to create amazing results.
+
+Learn how to:
+FLIP YOUR MINDSET - Identify and challenge the assumptions, habits, and procrastinations that limit you and expand the boundaries of what you believe is possible.
+
+IGNITE YOUR MOTIVATION - Uncovering what motivates you is the key that opens up limitless mental capacity. When you unleash your passions, purposes, and sources of energy, you stay focused and clear on your goals.
+
+MASTER THE METHODS - Accelerate learning, improve memory, and enhance brain performance. Jim Kwik applies the latest neuroscience for accelerated learning so you can finish a book 3x faster through speed reading (and remember it), learn a new language in record time, and master new skills with ease.
+
+BUILD MOMENTUM - Unstoppable momentum is the product of mindset, motivation, and methods. Jim offers new insights and tools to unlock the first 3 M’s so you can become truly limitless.
+
+“There’s no genius pill, but Jim gives you the process for unlocking your best brain and brightest future.” — Mark Hyman, M.D.`
+  },
+
+
+  {
+    id: 9,
+    title: "Master Your Time, Master Your Life",
+    author: "Brian Tracy",
+    price: 2,
+    img: "ebook9.jpg",
+    filename: "ebook9.pdf",
+    format: "PDF",
+    description: `Discover 10 Essential Ways to Make the Most of Your Time
+
+“Time is money,” as the saying goes, but most of us never feel we have enough of either. In Master Your Time, Master Your Life, internationally acclaimed productivity expert and bestselling author Brian Tracy presents a brilliant new approach to time management that will help you gain control of your time and accomplish far more, faster and more easily than you ever thought possible.
+
+Drawing on the latest research in productivity science and Tracy’s decades of expertise, this breakthrough program allocates time into ten categories of priority—including strategic planning/goal setting, people and family, income improvement, rest/relaxation, and even creative time—and reveals the best techniques for focusing on each effectively. By thoughtfully applying the principles in Master Your Time, Master Your Life, you’ll not only achieve greater results and reach your goals more quickly and successfully, you’ll alsohave more time to devote to what you truly love.`
+  },
+
+  {
+    id: 10,
+    title: "The Psychology of Money",
+    author: "Morgan Housel",
+    price: 2,
+    img: "ebook10.jpg",
+    filename: "ebook10.pdf",
+    format: "PDF",
+    description: `Over 6 million copies sold around the world. The original book from Morgan Housel, the New York Times bestselling author of Same As Ever.
+
+Doing well with money isn't necessarily about what you know. It's about how you behave. And behavior is hard to teach, even to really smart people.
+
+Money – investing, personal finance, and business decisions – is typically taught as a math-based field, where data and formulas tell us exactly what to do. But in the real world people don't make financial decisions on a spreadsheet. They make them at the dinner table, or in a meeting room, where personal history, your own unique view of the world, ego, pride, marketing, and odd incentives are scrambled together.
+
+In The Psychology of Money, award-winning author Morgan Housel shares 19 short stories exploring the strange ways people think about money and teaches you how to make better sense of one of life's most important topics.`
+  },
+
+
+  {
+    id: 11,
+    title: "Boundaries",
+    author: "Henry Cloud and John Townsend",
+    price: 2,
+    img: "ebook11.jpg",
+    filename: "ebook11.pdf",
+    format: "PDF",
+    description: `Join the millions who have learned how to take control of their lives by setting healthy boundaries with their spouses, children, friends, parents, co-workers, and even themselves—in order to live life to the fullest.
+
+Do you feel like your life has spiraled out of control?
+Have you focused so much on being loving and unselfish that you've forgotten your own limits?
+Do you find yourself taking responsibility for other people's feelings and problems?
+ 
+
+In Boundaries, Drs. Henry Cloud and John Townsend share the lessons they've learned in their years of practicing psychology and studying the patterns and practices that support clear biblical boundaries. You'll learn the ins and outs of setting the boundaries that will transform your daily life.
+
+This updated and expanded edition of Boundaries, answers the most common questions on the science behind establishing boundaries:
+
+Can I set limits and still be a loving person?
+What are legitimate boundaries?
+How do I effectively manage my digital life so that it doesn't control me?
+What if someone is upset or hurt by my boundaries?
+How do I answer someone who wants my time, love, energy, or money?
+Why do I feel guilty or afraid when I consider setting boundaries?
+ 
+
+Discover the countless ways that Boundaries can change your life for the better today!`
+  },
+
+
+
+  {
+    id: 12,
+    title: "Calm the F*ck Down",
+    author: "Sarah Knight",
+    price: 2,
+    img: "ebook12.jpg",
+    filename: "ebook12.pdf",
+    format: "PDF",
+    description: `Tame anxiety and take back control of your life with this "genius" (Cosmopolitan) no-f*cks-given guide from the bestselling author of The Life-Changing Magic of Not Giving a F*ck and Get Your Sh*t Together.
+
+Do you spend more time worrying about problems than solving them? Do you let unexpected difficulties ruin your day and do "what ifs" keep you up at night? Sounds like you need to Calm the F*ck Down. 
+
+Just because things are falling apart doesn't mean YOU can't pull it together. Whether you're stressed about sh*t that hasn't happened yet or freaked out about sh*t that already has, the NoWorries method from "anti-guru" Sarah Knight helps you curb the anxiety and overthinking that's making everything worse. Calm the F*ck Down explains: 
+
+The Four Faces of Freaking Out—and their Flipsides
+How to accept what you can't control
+Productive Helpful Effective Worrying (PHEW)
+The Three Principles of Dealing With It
+And much more!
+ 
+Find even more calm with the Calm the F*ck Down Journal.`
+  },
+
+
+
+  {
+    id: 13,
+    title: "Get Your Sh*t Together",
+    author: "Sarah Knight",
+    price: 2,
+    img: "ebook13.jpg",
+    filename: "ebook13.pdf",
+    format: "PDF",
+    description: `Declutter your mind and do the important sh*t you've been putting off with this New York Times bestseller from the author of The Life-Changing Magic of Not Giving a F*ck and You Do You.
+The no-f*cks-given, no-holds-barred guide to living your best life.
+
+Ever find yourself stuck at the office-or even just glued to the couch—when you really want to get out (for once), get to the gym (at last), and get started on that "someday" project you're always putting off?  It's time to  get your sh*t together.
+
+In The Life-Changing Magic of Not Giving a F*ck, "anti-guru" Sarah Knight introduced readers to the joys of mental decluttering. This book takes you one step further—organizing the f*cks you want and need to give, and cutting through the bullsh*t cycle of self-sabotage to get happy and stay that way. You'll discover:
+
+• The Power of Negative Thinking
+
+• Three simple tools for getting your sh*t together
+
+• How to spend less and save more
+
+• Ways to manage anxiety, avoid avoidance, and conquer your fear of failure
+
+• And tons of other awesome sh*t!
+
+Praise for Sarah Knight:
+
+"Genius." —Cosmopolitan
+
+"Self-help to swear by." —The Boston Globe
+
+"Hilarious . . . truly practical." —Booklist`
+  },
+
+
+  {
+    id: 14,
+    title: "Good to Great",
+    author: "Jim Collins",
+    price: 2,
+    img: "ebook14.jpg",
+    filename: "ebook14.pdf",
+    format: "PDF",
+    description: `The Challenge:
+Built to Last, the defining management study of the nineties, showed how great companies triumph over time and how long-term sustained performance can be engineered into the DNA of an enterprise from the verybeginning.
+
+
+But what about the company that is not born with great DNA? How can good companies, mediocre companies, even bad companies achieve enduring greatness?
+
+
+The Study:
+For years, this question preyed on the mind of Jim Collins. Are there companies that defy gravity and convert long-term mediocrity or worse into long-term superiority? And if so, what are the universal distinguishing characteristics that cause a company to go from good to great?
+
+
+The Standards:
+Using tough benchmarks, Collins and his research team identified a set of elite companies that made the leap to great results and sustained those results for at least fifteen years. How great? After the leap, the good-to-great companies generated cumulative stock returns that beat the general stock market by an average of seven times in fifteen years, better than twice the results delivered by a composite index of the world's greatest companies, including Coca-Cola, Intel, General Electric, and Merck.
+
+
+The Comparisons:
+The research team contrasted the good-to-great companies with a carefully selected set of comparison companies that failed to make the leap from good to great. What was different? Why did one set of companies become truly great performers while the other set remained only good?
+
+
+Over five years, the team analyzed the histories of all twenty-eight companies in the study. After sifting through mountains of data and thousands of pages of interviews, Collins and his crew discovered the key determinants of greatness -- why some companies make the leap and others don't.
+
+
+The Findings:
+The findings of the Good to Great study will surprise many readers and shed light on virtually every area of management strategy and practice. The findings include:
+
+
+
+Level 5 Leaders: The research team was shocked to discover the type of leadership required to achieve greatness.
+
+The Hedgehog Concept: (Simplicity within the Three Circles): To go from good to great requires transcending the curse of competence.
+
+A Culture of Discipline: When you combine a culture of discipline with an ethic of entrepreneurship, you get the magical alchemy of great results. Technology Accelerators: Good-to-great companies think differently about the role of technology.
+
+The Flywheel and the Doom Loop: Those who launch radical change programs and wrenching restructurings will almost certainly fail to make the leap.
+
+
+“Some of the key concepts discerned in the study,” comments Jim Collins, "fly in the face of our modern business culture and will, quite frankly, upset some people.”
+
+
+Perhaps, but who can afford to ignore these findings?`
+  },
+
+
+  {
+    id: 15,
+    title: "The Gifts of Imperfection",
+    author: "Brené Brown",
+    price: 2,
+    img: "ebook15.jpg",
+    filename: "ebook15.pdf",
+    format: "PDF",
+    description: `NEW YORK TIMES BESTSELLER • This tenth-anniversary edition of the game-changing #1 New York Times bestseller features a new foreword and new tools to make the work your own. 
+
+For over a decade, Brené Brown has found a special place in our hearts as a gifted mapmaker and a fellow traveler. She is both a social scientist and a kitchen-table friend whom you can always count on to tell the truth, make you laugh, and, on occasion, cry with you. And what’s now become a movement all started with The Gifts of Imperfection, which has sold more than two million copies in thirty-five different languages across the globe. 
+What transforms this book from words on a page to effective daily practices are the ten guideposts to wholehearted living. The guideposts not only help us understand the practices that will allow us to change our lives and families, they also walk us through the unattainable and sabotaging expectations that get in the way. 
+Brené writes, “This book is an invitation to join a wholehearted revolution. A small, quiet, grassroots movement that starts with each of us saying, ‘My story matters because I matter.’ Revolution might sound a little dramatic, but in this world, choosing authenticity and worthiness is an absolute act of resistance.”`
+  },
+
+
+  {
+    id: 16,
+    title: "The Happiness Hack",
+    author: "Ellen Petry Leanse",
+    price: 2,
+    img: "ebook16.jpg",
+    filename: "ebook16.pdf",
+    format: "PDF",
+    description: `For years, Ellen Leanse worked with the biggest technology titans that fight for our attention, including Apple, Facebook, Google, and Microsoft… programming habits that revolved around our devices. By mapping how the mind works, innovators like Ellen are able to ingrain habits for all of us, revolving around our technology. But what if we could instead create habits that revolve around happiness?
+
+In this refreshing, practical book, you'll learn Ellen's proven methods to hack your mind in order to:
+
+Stop living your life on auto pilot
+Reclaim focus for the things that matter
+Have more time to do things you love
+Create real connections to the world around you
+And most importantly, REDUCE STRESS
+By the end of The Happiness Hack, you'll be back in control of your mind and living the life you wish to live. Only you can define your happiness ― take control today!`
+  },
+
+
+  {
+    id: 17,
+    title: "The Let Them Theory",
+    author: "Mel Robbins and Sawyer Robbins ",
+    price: 2,
+    img: "ebook17.jpg",
+    filename: "ebook17.pdf",
+    format: "PDF",
+    description: `Over 5 Million Copies Sold!
+#1 New York Times Bestseller
+#1 Sunday Times Bestseller
+#1 Amazon Bestseller
+#1 Audible Bestseller
+
+A Life-Changing Tool Millions of People Can’t Stop Talking About
+
+What if the key to happiness, success, and love was as simple as two words?
+
+If you've ever felt stuck, overwhelmed, or frustrated with where you are, the problem isn't you. The problem is the power you give to other people. Two simple words—Let Them—will set you free. Free from the opinions, drama, and judgments of others. Free from the exhausting cycle of trying to manage everything and everyone around you. The Let Them Theory puts the power to create a life you love back in your hands—and this book will show you exactly how to do it.
+
+In her latest groundbreaking book, The Let Them Theory, Mel Robbins—New York Times bestselling author and one of the world's most respected experts on motivation, confidence, and mindset—teaches you how to stop wasting energy on what you can't control and start focusing on what truly matters: YOU. Your happiness. Your goals. Your life.
+
+Using the same no-nonsense, science-backed approach that's made The Mel Robbins Podcast a global sensation, Robbins explains why The Let Them Theory is already loved by millions and how you can apply it in eight key areas of your life to make the biggest impact. Within a few pages, you'll realize how much energy and time you've been wasting trying to control the wrong things—at work, in relationships, and in pursuing your goals—and how this is keeping you from the happiness and success you deserve.
+
+Written as an easy-to-understand guide, Robbins shares relatable stories from her own life, highlights key takeaways, relevant research and introduces you to world-renowned experts in psychology, neuroscience, relationships, happiness, and ancient wisdom who champion The Let Them Theory every step of the way.
+
+Learn how to:
+
+Stop wasting energy on things you can't control
+Stop comparing yourself to other people
+Break free from fear and self-doubt
+Release the grip of people's expectations
+Build the best friendships of your life
+Create the love you deserve
+Pursue what truly matters to you with confidence
+Build resilience against everyday stressors and distractions
+Define your own path to success, joy, and fulfillment
+. . . and so much more.
+
+The Let Them Theory will forever change the way you think about relationships, control, and personal power. Whether you want to advance your career, motivate others to change, take creative risks, find deeper connections, build better habits, start a new chapter, or simply create more happiness in your life and relationships, this book gives you the mindset and tools to unlock your full potential.
+
+Order your copy of The Let Them Theory now and discover how much power you truly have. It all begins with two simple words.
+
+The cover has been updated to include the name of co-author Sawyer Robbins. Customers may receive either version of the cover at random.`
+  },
+
+
+  {
+    id: 18,
+    title: "The Power of Now",
+    author: "Eckhart Tolle",
+    price: 2,
+    img: "ebook18.jpg",
+    filename: "ebook18.pdf",
+    format: "PDF",
+    description: `Celebrating 25 Years as a New York Times Bestseller — Over 16 Million Copies Sold
+
+It’s no wonder that The Power of Now has sold over 16 million copies worldwide and has been translated into over 30 foreign languages. Much more than simple principles and platitudes, the book takes readers on an inspiring spiritual journey to find their true and deepest self and reach the ultimate in personal growth and spirituality: the discovery of truth and light. In the first chapter, Tolle introduces readers to enlightenment and its natural enemy, the mind. He awakens readers to their role as a creator of pain and shows them how to have a pain-free identity by living fully in the present. The journey is thrilling, and along the way, the author shows how to connect to the indestructible essence of our Being, “the eternal, ever-present One Life beyond the myriad forms of life that are subject to birth and death.” Featuring a new preface by the author, this paperback shows that only after regaining awareness of Being, liberated from Mind and intensely in the Now, is there Enlightenment.`
+  },
+
+
+  {
+    id: 19,
+    title: "The Subtle Art of Not Giving a F*ck",
+    author: "Mark Manson",
+    price: 2,
+    img: "ebook19.jpg",
+    filename: "ebook19.pdf",
+    format: "PDF",
+    description: `#1 New York Times Bestseller • More than 10 million Copies Sold
+
+In this generation-defining self-help guide, a superstar blogger cuts through the crap to show us how to stop trying to be "positive" all the time so that we can truly become better, happier people.
+
+For decades, we’ve been told that positive thinking is the key to a happy, rich life. "F**k positivity," Mark Manson says. "Let’s be honest, shit is f**ked and we have to live with it." In his wildly popular Internet blog, Manson doesn’t sugarcoat or equivocate. He tells it like it is—a dose of raw, refreshing, honest truth that is sorely lacking today. The Subtle Art of Not Giving a F**k is his antidote to the coddling, let’s-all-feel-good mindset that has infected modern society and spoiled a generation, rewarding them with gold medals just for showing up.
+
+Manson makes the argument, backed both by academic research and well-timed poop jokes, that improving our lives hinges not on our ability to turn lemons into lemonade, but on learning to stomach lemons better. Human beings are flawed and limited—"not everybody can be extraordinary, there are winners and losers in society, and some of it is not fair or your fault." Manson advises us to get to know our limitations and accept them. Once we embrace our fears, faults, and uncertainties, once we stop running and avoiding and start confronting painful truths, we can begin to find the courage, perseverance, honesty, responsibility, curiosity, and forgiveness we seek.
+
+There are only so many things we can give a f**k about so we need to figure out which ones really matter, Manson makes clear. While money is nice, caring about what you do with your life is better, because true wealth is about experience. A much-needed grab-you-by-the-shoulders-and-look-you-in-the-eye moment of real-talk, filled with entertaining stories and profane, ruthless humor, The Subtle Art of Not Giving a F*ck is a refreshing slap for a generation to help them lead contented, grounded lives.`
+  },
+
+
+  {
+    id: 20,
+    title: "You Are a Badass®",
+    author: "Jen Sincero",
+    price: 2,
+    img: "ebook20.jpg",
+    filename: "ebook20.pdf",
+    format: "PDF",
+    description: `#1 NEW YORK TIMES BESTSELLER • MORE THAN 4 MILLION COPIES SOLD
+
+The first ever self-development book to help millions of people around the globe transform their lives using humor, irreverence, and the occasional curse word—now updated and expanded for its 10th anniversary with a brand-new foreword, reader's guide, and more!
+
+In this refreshingly entertaining guide to reshaping your mindset and your life, mega-bestselling author and world-traveling success coach Jen Sincero serves up 27 bite-sized chapters full of hilarious and inspiring stories, sage advice, loving yet firm kicks in the rear, and easy-to-implement exercises to help you:
+
+Identify and change the self-sabotaging beliefs and behaviors that stop you from getting what you want.
+Shift your energy and attract what you desire.
+Create a life you totally love. And start creating it NOW.
+Make some damn money already. The kind you've never made before.
+By the end of You Are a Badass, you’ll understand how to blast past what’s holding you back, make some serious changes, and start living the kind of life that once seemed impossible.`
+  },
+
+
+  {
+    id: 21,
+    title: "Dare to Lead",
+    author: "Brené Brown",
+    price: 2,
+    img: "ebook21.jpg",
+    filename: "ebook21.pdf",
+    format: "PDF",
+    description: `#1 NEW YORK TIMES BESTSELLER • Brené Brown has taught us what it means to dare greatly, rise strong, and brave the wilderness. Now, based on new research conducted with leaders, change makers, and culture shifters, she’s showing us how to put those ideas into practice so we can step up and lead.
+
+Don’t miss the five-part Max docuseries Brené Brown: Atlas of the Heart!
+
+ONE OF BLOOMBERG’S BEST BOOKS OF THE YEAR
+
+Leadership is not about titles, status, and wielding power. A leader is anyone who takes responsibility for recognizing the potential in people and ideas, and has the courage to develop that potential.
+
+When we dare to lead, we don’t pretend to have the right answers; we stay curious and ask the right questions. We don’t see power as finite and hoard it; we know that power becomes infinite when we share it with others. We don’t avoid difficult conversations and situations; we lean into vulnerability when it’s necessary to do good work.
+
+But daring leadership in a culture defined by scarcity, fear, and uncertainty requires skill-building around traits that are deeply and uniquely human. The irony is that we’re choosing not to invest in developing the hearts and minds of leaders at the exact same time as we’re scrambling to figure out what we have to offer that machines and AI can’t do better and faster. What can we do better? Empathy, connection, and courage, to start.
+
+Four-time #1 New York Times bestselling author Brené Brown has spent the past two decades studying the emotions and experiences that give meaning to our lives, and the past seven years working with transformative leaders and teams spanning the globe. She found that leaders in organizations ranging from small entrepreneurial startups and family-owned businesses to nonprofits, civic organizations, and Fortune 50 companies all ask the same question:
+
+How do you cultivate braver, more daring leaders, and how do you embed the value of courage in your culture?
+
+In Dare to Lead, Brown uses research, stories, and examples to answer these questions in the no-BS style that millions of readers have come to expect and love.
+
+Brown writes, “One of the most important findings of my career is that daring leadership is a collection of four skill sets that are 100 percent teachable, observable, and measurable. It’s learning and unlearning that requires brave work, tough conversations, and showing up with your whole heart. Easy? No. Because choosing courage over comfort is not always our default. Worth it? Always. We want to be brave with our lives and our work. It’s why we’re here.”
+
+Whether you’ve read Daring Greatly and Rising Strong or you’re new to Brené Brown’s work, this book is for anyone who wants to step up and into brave leadership.`
+  },
+
+
+  {
+    id: 22,
+    title: "Everything Is F*cked",
+    author: "Mark Manson",
+    price: 2,
+    img: "ebook22.jpg",
+    filename: "ebook22.pdf",
+    format: "PDF",
+    description: `New York Times Bestseller
+
+“Just because everything appears to be a mess doesn’t mean you have to be one. Mark Manson’s book is a call to arms for a better life and better world and could not be more needed right now.” — Ryan Holiday, bestselling author of The Obstacle is the Way and Ego is the Enemy
+
+From the author of the international mega-bestseller The Subtle Art of Not Giving A F*ck comes a counterintuitive guide to the problems of hope.
+
+We live in an interesting time. Materially, everything is the best it’s ever been—we are freer, healthier and wealthier than any people in human history. Yet, somehow everything seems to be irreparably and horribly f*cked—the planet is warming, governments are failing, economies are collapsing, and everyone is perpetually offended on Twitter. At this moment in history, when we have access to technology, education and communication our ancestors couldn’t even dream of, so many of us come back to an overriding feeling of hopelessness.
+
+What’s going on? If anyone can put a name to our current malaise and help fix it, it’s Mark Manson. In 2016, Manson published The Subtle Art of Not Giving A F*ck, a book that brilliantly gave shape to the ever-present, low-level hum of anxiety that permeates modern living. He showed us that technology had made it too easy to care about the wrong things, that our culture had convinced us that the world owed us something when it didn’t—and worst of all, that our modern and maddening urge to always find happiness only served to make us unhappier. Instead, the “subtle art” of that title turned out to be a bold challenge: to choose your struggle; to narrow and focus and find the pain you want to sustain. The result was a book that became an international phenomenon, selling millions of copies worldwide while becoming the #1 bestseller in 13 different countries.
+
+In Everthing Is F*cked, Manson turns his gaze from the inevitable flaws within each individual self to the endless calamities taking place in the world around us. Drawing from the pool of psychological research on these topics, as well as the timeless wisdom of philosophers such as Plato, Nietzsche, and Tom Waits, he dissects religion and politics and the uncomfortable ways they have come to resemble one another. He looks at our relationships with money, entertainment and the internet, and how too much of a good thing can psychologically eat us alive. He openly defies our definitions of faith, happiness, freedom—and even of hope itself.
+
+With his usual mix of erudition and where-the-f*ck-did-that-come-from humor, Manson takes us by the collar and challenges us to be more honest with ourselves and connected with the world in ways we probably haven’t considered before. It’s another counterintuitive romp through the pain in our hearts and the stress of our soul. One of the great modern writers has produced another book that will set the agenda for years to come.`
+  },
+
+
+  {
+    id: 23,
+    title: "Getting Things Done",
+    author: "David Allen",
+    price: 2,
+    img: "ebook23.jpg",
+    filename: "ebook23.pdf",
+    format: "PDF",
+    description: `The book Lifehack calls "The Bible of business and personal productivity."
+
+"A completely revised and updated edition of the blockbuster bestseller from 'the personal productivity guru'"—Fast Company
+
+Since it was first published almost fifteen years ago, David Allen’s Getting Things Done has become one of the most influential business books of its era, and the ultimate book on personal organization. “GTD” is now shorthand for an entire way of approaching professional and personal tasks, and has spawned an entire culture of websites, organizational tools, seminars, and offshoots.
+ 
+Allen has rewritten the book from start to finish, tweaking his classic text with important perspectives on the new workplace, and adding material that will make the book fresh and relevant for years to come. This new edition of Getting Things Done will be welcomed not only by its hundreds of thousands of existing fans but also by a whole new generation eager to adopt its proven principles.`
+  },
+
+
+
+    {
+    id: 24,
+    title: "Human Hacking",
+    author: "Christopher Hadnagy and Seth Schulman",
+    price: 2,
+    img: "ebook24.jpg",
+    filename: "ebook24.pdf",
+    format: "PDF",
+    description: `A global security expert draws on psychological insights to help you master the art of social engineering—human hacking. Make friends, influence people, and leave them feeling better for having met you by being more empathetic, generous, and kind.
+
+Eroding social conventions, technology, and rapid economic change are making human beings more stressed and socially awkward and isolated than ever. We live in our own bubbles, reluctant to connect, and feeling increasingly powerless, insecure, and apprehensive when communicating with others.
+
+A pioneer in the field of social engineering and a master hacker, Christopher Hadnagy specializes in understanding how malicious attackers exploit principles of human communication to access information and resources through manipulation and deceit. Now, he shows you how to use social engineering as a force for good—to help you regain your confidence and control. Human Hacking provides tools that will help you establish rapport with strangers, use body language and verbal cues to your advantage, steer conversations and influence other’s decisions, and protect yourself from manipulators. Ultimately, you’ll become far more self-aware about how you’re presenting yourself—and able to use it to improve your life. 
+
+Hadnagy includes lessons and interactive “missions”—exercises spread throughout the book to help you learn the skills, practice them, and master them. With Human Hacking, you’ll soon be winning friends, influencing people, and achieving your goals.`
+  },
+
+
+    {
+    id: 25,
+    title: "Overwhelmed",
+    author: "Brigid Schulte",
+    price: 2,
+    img: "ebook25.jpg",
+    filename: "ebook25.pdf",
+    format: "PDF",
+    description: `Overwhelmed is a book about time pressure and modern life. It is a deeply reported and researched, honest and often hilarious journey from feeling that, as one character in the book said, time is like a "rabid lunatic" running naked and screaming as your life flies past you, to understanding the historical and cultural roots of the overwhelm, how worrying about all there is to do and the pressure of feeling like we're never have enough time to do it all, or do it well, is "contaminating" our experience of time, how time pressure and stress is resculpting our brains and shaping our workplaces, our relationships and squeezing the space that the Greeks said was the point of living a Good Life: that elusive moment of peace called leisure.
+Author Brigid Schulte, an award-winning journalist for the Washington Post -and harried mother of two - began the journey quite by accident, after a time-use researcher insisted that she, like all American women, had 30hours of leisure each week. Stunned, she accepted his challenge to keep time diary and began a journey that would take her from the depths of what she described as the Time Confetti of her days to a conference in Paris with time researchers from around the world, to North Dakota, of all places, where academics are studying the modern love affair with busyness, to Yale, where neuroscientists are finding that feeling overwhelmed is actually shrinking our brains, to exploring new lawsuits uncovering unconscious bias in the workplace, why the US has no real family policy, and where states and cities are filling the federal vacuum.
+She spent time with mothers drawn to increasingly super intensive parenting standards, and mothers seeking to pull away from it. And she visited the walnut farm of the world's most eminent motherhood researcher, an evolutionary anthropologist, to ask, are mothers just "naturally" meant to be the primary parent? The answer will surprise you.
+Along the way, she was driven by two questions, Why are things the way they are? and, How can they be better? She found real world bright spots of innovative workplaces, couples seeking to shift and share the division of labor at home and work more equitably and traveled to Denmark, the happiest country on earth, where fathers - and mothers - have more pure leisure time than parents in other industrial countries. She devoured research about the science of play, why it's what makes us human, and the
+feminist leisure research that explains why it's so hard for women to allow themselves to. The answers she found are illuminating, perplexing and ultimately hopeful. The book both outlines the structural and policy changes needed - already underway in small pockets - and mines the latest human performance and motivation science to show the way out of the overwhelm and toward a state that time use researchers call ... Time
+Serenity.`
+  },
+
+  {
+    id: 26,
+    title: "Radical Candor",
+    author: "Kim Scott",
+    price: 2,
+    img: "ebook26.jpg",
+    filename: "ebook26.pdf",
+    format: "PDF",
+    description: `* New York Times and Wall Street Journal bestseller multiple years running
+* Translated into 20 languages, with more than half a million copies sold worldwide
+* A Hudson and Indigo Best Book of the Year
+* Recommended by Shona Brown, Rachel Hollis, Jeff Kinney, Daniel Pink, Sheryl Sandberg, and Gretchen Rubin
+
+Radical Candor has been embraced around the world by leaders of every stripe at companies of all sizes. Now a cultural touchstone, the concept has come to be applied to a wide range of human relationships.
+
+The idea is simple: You don't have to choose between being a pushover and a jerk. Using Radical Candor—avoiding the perils of Obnoxious Aggression, Manipulative Insincerity, and Ruinous Empathy—you can be kind and clear at the same time.
+
+Kim Scott was a highly successful leader at Google before decamping to Apple, where she developed and taught a management class. Since the original publication of Radical Candor in 2017, Scott has earned international fame with her vital approach to effective leadership and co-founded the Radical Candor executive education company, which helps companies put the book's philosophy into practice.
+
+Radical Candor is about caring personally and challenging directly, about soliciting criticism to improve your leadership and also providing guidance that helps others grow. It focuses on praise but doesn't shy away from criticism—to help you love your work and the people you work with.
+
+Radically Candid relationships with team members enable bosses to fulfill their three core responsibilities:
+1. Create a culture of Compassionate Candor
+2. Build a cohesive team
+3. Achieve results collaboratively
+
+Required reading for the most successful organizations, Radical Candor has raised the bar for management practices worldwide.`
+  },
+
+
+
+    {
+    id: 27,
+    title: "Start with Why",
+    author: "Simon Sinek",
+    price: 2,
+    img: "ebook27.jpg",
+    filename: "ebook27.pdf",
+    format: "PDF",
+    description: `The inspiring, life-changing bestseller updated for its 15th anniversary with a new foreword by the author
+
+In 2009, Simon Sinek ignited a movement to help people find a greater sense of purpose at work and added a new word to the lexicon of business: WHY. People and companies now regularly talk about their WHY. Sinek’s videos have been seen by over a billion people around the world, including more than 65 million who’ve watched his TED Talk based on Start With Why.
+
+Sinek starts with a fundamental question: Why are some people and organizations more innovative, more influential and more profitable than others? Why do some command greater loyalty from customers and employees alike? Even among the successful, why are so few able to repeat their success over and over?
+
+Start With Why shows that the leaders who've had the greatest influence in the world all think, act, and communicate the same way— and it's the opposite of what everyone else does. 
+
+People like Martin Luther King Jr., Steve Jobs, and the Wright Brothers had little in common but they inspired people, not with WHAT they did...but with WHY they did it.  
+
+Sinek provides a new, easy to understand, framework that inspires people to build organizations and lead movements in a more powerful and effective way. And it all starts with WHY. 
+
+With a new foreword touching on the importance of holding onto our WHY in a distracted age, new examples, and original stories updated, this 15th anniversary edition celebrates a simple but transformative idea that has changed the way we think about leadership and legacy.`
+  },
+
+
+    {
+    id: 28,
+    title: "The Energy Bus",
+    author: "Jon Gordon",
+    price: 2,
+    img: "ebook28.jpg",
+    filename: "ebook28.pdf",
+    format: "PDF",
+    description: `More than 1.5 million sold
+
+Fuel your life with positive energy with this bestselling fable
+
+It's Monday morning and George walks out of the front door to his car and a flat tire. This is the least of his problems. His home life is in shambles and his team at work is in disarray. With a big product launch coming in two weeks, he has to find a way to get it together or risk losing his marriage and job. Forced to take the bus to work, George meets a unique bus driver and an interesting cast of characters who, over the course of two weeks, share the ten rules for the ride of his life. In the process, they help him turn around his work and life, saving his job and marriage from destruction.
+
+The Energy Bus, an international bestseller, takes readers on an enlightening and inspiring ride that reveals ten secrets for approaching life and work with the kind of positive, forward thinking that leads to true accomplishment—at work and at home.
+
+Build positive energy with vision, trust, optimism, enthusiasm, purpose, and spirit
+Learn how to turn negative energy into positive achievement
+Overcome obstacles and bring out the best in yourself and your team
+For managers and team leaders or anyone looking to turn negative situations into positive outcomes, The Energy Bus provides a powerful plan for overcoming common life and work obstacles and bringing out the best in yourself and your team. When you get on The Energy Bus, you'll enjoy the ride of your life.`
+  },
+
+    {
+    id: 29,
+    title: "Think Like a Monk",
+    author: "Jay Shetty",
+    price: 2,
+    img: "ebook29.jpg",
+    filename: "ebook29.pdf",
+    format: "PDF",
+    description: `Jay Shetty, social media superstar and host of the #1 podcast On Purpose, distills the timeless wisdom he learned as a monk into practical steps anyone can take every day to live a less anxious, more meaningful life.
+
+When you think like a monk, you’ll understand:
+-How to overcome negativity
+-How to stop overthinking
+-Why comparison kills love
+-How to use your fear
+-Why you can’t find happiness by looking for it
+-How to learn from everyone you meet
+-Why you are not your thoughts
+-How to find your purpose
+-Why kindness is crucial to success
+-And much more...
+
+Shetty grew up in a family where you could become one of three things—a doctor, a lawyer, or a failure. His family was convinced he had chosen option three: instead of attending his college graduation ceremony, he headed to India to become a monk, to meditate every day for four to eight hours, and devote his life to helping others. After three years, one of his teachers told him that he would have more impact on the world if he left the monk’s path to share his experience and wisdom with others. Heavily in debt, and with no recognizable skills on his résumé, he moved back home in north London with his parents.
+
+Shetty reconnected with old school friends—many working for some of the world’s largest corporations—who were experiencing tremendous stress, pressure, and unhappiness, and they invited Shetty to coach them on well-being, purpose, and mindfulness. Since then, Shetty has become one of the world’s most popular influencers. In 2017, he was named in the Forbes magazine 30-under-30 for being a game-changer in the world of media. In 2018, he had the #1 video on Facebook with over 360 million views. His social media following totals over 38 million, he has produced over 400 viral videos which have amassed more than 8 billion views, and his podcast, On Purpose, is consistently ranked the world’s #1 Health and Wellness podcast.
+
+In this inspiring, empowering book, Shetty draws on his time as a monk to show us how we can clear the roadblocks to our potential and power. Combining ancient wisdom and his own rich experiences in the ashram, Think Like a Monk reveals how to overcome negative thoughts and habits, and access the calm and purpose that lie within all of us. He transforms abstract lessons into advice and exercises we can all apply to reduce stress, improve relationships, and give the gifts we find in ourselves to the world. Shetty proves that everyone can—and should—think like a monk.`
+  },
+
+
+
+    {
+    id: 30,
+    title: "Thinking, Fast and Slow",
+    author: "Daniel Kahneman",
+    price: 2,
+    img: "ebook30.jpg",
+    filename: "ebook30.pdf",
+    format: "PDF",
+    description: `*Major New York Times Bestseller
+*More than 2.6 million copies sold
+*One of The New York Times Book Review's ten best books of the year
+*Selected by The Wall Street Journal as one of the best nonfiction books of the year
+*Presidential Medal of Freedom Recipient
+*Daniel Kahneman's work with Amos Tversky is the subject of Michael Lewis's best-selling The Undoing Project: A Friendship That Changed Our Minds
+
+In his mega bestseller, Thinking, Fast and Slow, Daniel Kahneman, world-famous psychologist and winner of the Nobel Prize in Economics, takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think.
+
+System 1 is fast, intuitive, and emotional; System 2 is slower, more deliberative, and more logical. The impact of overconfidence on corporate strategies, the difficulties of predicting what will make us happy in the future, the profound effect of cognitive biases on everything from playing the stock market to planning our next vacation—each of these can be understood only by knowing how the two systems shape our judgments and decisions.
+
+Engaging the reader in a lively conversation about how we think, Kahneman reveals where we can and cannot trust our intuitions and how we can tap into the benefits of slow thinking. He offers practical and enlightening insights into how choices are made in both our business and our personal lives—and how we can use different techniques to guard against the mental glitches that often get us into trouble. Topping bestseller lists for almost ten years, Thinking, Fast and Slow is a contemporary classic, an essential book that has changed the lives of millions of readers.`
+  },
+
+
+  {
+    id: 31,
+    title: "Best Self",
+    author: "Mike Bayer",
+    price: 2,
+    img: "ebook31.jpg",
+    filename: "ebook31.pdf",
+    format: "PDF",
+    description: `New York Times Bestseller
+
+Foreword by Dr. Phil McGraw
+
+Ask yourself…are you truly who you want to be? Is this the life you really want? Are you living each day as your best self? What can you change, today?
+
+How would you answer those questions? Think about your daily life. Are you thriving, or going through the motions? Are your days full of work, relationships and activities that are true to your authentic self, or do you feel trapped on a treadmill of responsibility? If you dream of a better life, now is the time to turn your dream into reality. And the tools you need are within your grasp, to design a life that is fulfilling on the deepest levels. Best Self will show you how.
+
+Mike Bayer, known to the thousands of clients whose lives he has changed as Coach Mike, has helped everyone from pop stars to business executives to people just like you discover the freedom to be their best selves. By asking them and leading them to ask themselves a series of important but tough questions—such as “What are your core values?”  “Do you go to bed each day more knowledgeable than when you woke up?” and “Am I neglecting some aspect of my physical health out of fear or denial?”—he helps them see what their Best Selves and Anti-Selves really look like. As a mental health specialist, a personal development coach, and an all-around change agent, Mike has seen the amazing ways in which lives can improve with honesty and clarity.  He understands our struggles intimately, because he’s faced—and overcome—his own. And he knows that change is possible.
+
+By working through each of the Seven SPHERES of life—Social, Personal, Health, Education, Relationships, Employment and Spiritual Development—Best Self is an accessible and interactive book that distills all of Coach Mike’s wisdom into a compact, focused guide that will ignite anyone’s desire for change. Chock full of revealing quizzes, and full of provocative questionnaires, Best Self will empower you to embrace your authenticity, acknowledge what is holding you back, and break through to live a passionate life to the fullest, forever.`
+  },
+
+
+  {
+    id: 32,
+    title: "Better Than Before",
+    author: "Gretchen Rubin",
+    price: 2,
+    img: "ebook32.jpg",
+    filename: "ebook32.pdf",
+    format: "PDF",
+    description: `NEW YORK TIMES BESTSELLER • The author of The Happiness Project and “a force for real change” (Brené Brown) examines how changing our habits can change our lives.
+ 
+“If anyone can help us stop procrastinating, start exercising, or get organized, it’s Gretchen Rubin. The happiness guru takes a sledgehammer to old-fashioned notions about change.”—Parade
+ 
+Most of us have a habit we’d like to change, and there’s no shortage of expert advice. But as we all know from tough experience, no magic, one-size-fits-all solution exists. It takes work to make a habit, but once that habit is set, we can harness the energy of habits to build happier, stronger, more productive lives.
+ 
+In Better Than Before, acclaimed writer Gretchen Rubin identifies every approach that actually works. She presents a practical, concrete framework to allow readers to understand their habits—and to change them for good. 
+ 
+Infused with Rubin’s compelling voice, rigorous research, and easy humor, and packed with vivid stories of lives transformed, Better Than Before explains the (sometimes counterintuitive) core principles of habit formation and answers the most perplexing questions about habits: 
+ 
+• Why do we find it tough to create a habit for something we love to do? 
+• How can we keep our healthy habits when we’re surrounded by temptations? 
+• How can we help someone else change a habit? 
+ 
+Rubin reveals the true secret to habit change: first, we must know ourselves. When we shape our habits to suit ourselves, we can find success—even if we’ve failed before. 
+ 
+Whether you want to eat more healthfully, stop checking devices, or finish a project, the invaluable ideas in Better Than Before will start you working on your own habits—even before you’ve finished the book.`
+  },
+
+
+
+  {
+    id: 33,
+    title: "Daring Greatly",
+    author: "Brené Brown",
+    price: 2,
+    img: "ebook33.jpg",
+    filename: "ebook33.pdf",
+    format: "PDF",
+    description: `The #1 New York Times bestseller. More than 2 million copies sold!
+
+Look for Brené Brown’s new podcast, Dare to Lead, as well as her ongoing podcast Unlocking Us!
+
+From thought leader Brené Brown, a transformative new vision for the way we lead, love, work, parent, and educate that teaches us the power of vulnerability.
+ 
+“It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; . . . who at the best knows in the end the triumph of high achievement, and who at worst, if he fails, at least fails while daring greatly.”—Theodore Roosevelt
+
+Every day we experience the uncertainty, risks, and emotional exposure that define what it means to be vulnerable or to dare greatly. Based on twelve years of pioneering research, Brené Brown PhD, MSW, dispels the cultural myth that vulnerability is weakness and argues that it is, in truth, our most accurate measure of courage.
+
+Brown explains how vulnerability is both the core of difficult emotions like fear, grief, and disappointment, and the birthplace of love, belonging, joy, empathy, innovation, and creativity. She writes: “When we shut ourselves off from vulnerability, we distance ourselves from the experiences that bring purpose and meaning to our lives.”
+
+Daring Greatly is not about winning or losing. It’s about courage. In a world where “never enough” dominates and feeling afraid has become second nature, vulnerability is subversive. Uncomfortable. It’s even a little dangerous at times. And, without question, putting ourselves out there means there’s a far greater risk of getting criticized or feeling hurt. But when we step back and examine our lives, we will find that nothing is as uncomfortable, dangerous, and hurtful as standing on the outside of our lives looking in and wondering what it would be like if we had the courage to step into the arena—whether it’s a new relationship, an important meeting, the creative process, or a difficult family conversation. Daring Greatly is a practice and a powerful new vision for letting ourselves be seen.`
+  },
+
+
+{
+    id: 34,
+    title: "Delivering Happiness",
+    author: "Tony Hsieh",
+    price: 2,
+    img: "ebook34.jpg",
+    filename: "ebook34.pdf",
+    format: "PDF",
+    description: `Pay brand-new employees $2,000 to quit
+Make customer service the responsibility of the entire company-not just a department
+Focus on company culture as the #1 priority
+Apply research from the science of happiness to running a business
+Help employees grow-both personally and professionally
+Seek to change the world
+Oh, and make money too . . .
+Sound crazy? It's all standard operating procedure at Zappos, the online retailer that's doing over $1 billion in gross merchandise sales annually. After debuting as the highest-ranking newcomer in Fortune magazine's annual "Best Companies to Work For" list in 2009, Zappos was acquired by Amazon in a deal valued at over $1.2 billion on the day of closing.
+In DELIVERING HAPPINESS, Zappos CEO Tony Hsieh shares the different lessons he has learned in business and life, from starting a worm farm to running a pizza business, through LinkExchange, Zappos, and more. Fast-paced and down-to-earth, DELIVERING HAPPINESS shows how a very different kind of corporate culture is a powerful model for achieving success-and how by concentrating on the happiness of those around you, you can dramatically increase your own.`
+  },
+
+
+  {
+    id: 35,
+    title: "Discipline Is Destiny",
+    author: "Ryan Holiday",
+    price: 2,
+    img: "ebook35.jpg",
+    filename: "ebook35.pdf",
+    format: "PDF",
+    description: `The instant New York Times, Wall Street Journal, and USA Today Bestseller!
+
+In his New York Times bestselling book Courage is Calling, author Ryan Holiday made the Stoic case for a bold and brave life. In this much-anticipated second book of his Stoic Virtue series, Holiday celebrates the awesome power of self-discipline and those who have seized it.
+
+To master anything, one must first master themselves–one’s emotions, one’s thoughts, one’s actions. Eisenhower famously said that freedom is really the opportunity to practice self-discipline. Cicero called the virtue of temperance the polish of life. Without boundaries and restraint, we risk not only failing to meet our full potential and jeopardizing what we have achieved, but we ensure misery and shame. In a world of temptation and excess, this ancient idea is more urgent than ever.
+
+In Discipline is Destiny, Holiday draws on the stories of historical figures we can emulate as pillars of self-discipline, including Lou Gehrig, Queen Elizabeth II, boxer Floyd Patterson, Marcus Aurelius and writer Toni Morrison, as well as the cautionary tales of Napoleon, F. Scott Fitzgerald and Babe Ruth. Through these engaging examples, Holiday teaches readers the power of self-discipline and balance, and cautions against the perils of extravagance and hedonism.
+
+At the heart of Stoicism are four simple virtues: courage, temperance, justice, and wisdom. Everything else, the Stoics believed, flows from them. Discipline is Destiny will guide readers down the path to self-mastery, upon which all the other virtues depend. Discipline is predictive. You cannot succeed without it. And if you lose it, you cannot help but bring yourself failure and unhappiness.`
+  },
+
+
+  {
+    id: 36,
+    title: "Flow: The Psychology of Optimal Experience",
+    author: "Mihaly Csikszentmihalyi",
+    price: 2,
+    img: "ebook36.jpg",
+    filename: "ebook36.pdf",
+    format: "PDF",
+    description: `“Csikszentmihalyi arrives at an insight that many of us can intuitively grasp, despite our insistent (and culturally supported) denial of this truth. That is, it is not what happens to us that determines our happiness, but the manner in which we make sense of that reality. . . . The manner in which Csikszentmihalyi integrates research on consciousness, personal psychology and spirituality is illuminating.” —Los Angeles Times Book Review
+
+The bestselling classic that holds the key to unlocking meaning, creativity, peak performance, and true happiness.
+
+Legendary psychologist Mihaly Csikszentmihalyi's famous investigations of "optimal experience" have revealed that what makes an experience genuinely satisfying is a state of consciousness called flow. During flow, people typically experience deep enjoyment, creativity, and a total involvement with life. In this new edition of his groundbreaking classic work, Csikszentmihalyi ("the leading researcher into ‘flow states’" —Newsweek) demonstrates the ways this positive state can be controlled, not just left to chance. Flow: The Psychology of Optimal Experience teaches how, by ordering the information that enters our consciousness, we can discover true happiness, unlock our potential, and greatly improve the quality of our lives.`
+  },
+
+
+{
+    id: 37,
+    title: "Not Nice",
+    author: "Aziz Gazipura",
+    price: 2,
+    img: "ebook37.jpg",
+    filename: "ebook37.pdf",
+    format: "PDF",
+    description: `Are You Too Nice? If you find it hard to be assertive, directly ask for what you want, or say "no" to others, then you just might be suffering from too much niceness. In this controversial book, world-renowned confidence expert, Dr. Aziz Gazipura, takes an incisive look at the concept of nice. Through his typical style, Dr. Aziz uses engaging stories, humor, and disarming vulnerability to cut through the nice conditioning and liberate the most bold, expressive, authentic version of you. You'll discover how to: => Easily say "no" when you want to and need to. => Confidently and effectively ask for what you want. => Speak up more freely in all your relationships. => Eliminate feelings of guilt, anxiety, and worry about what others will think.`
+  },
+
+
+{
+    id: 38,
+    title: "So Good They Can't Ignore You",
+    author: "Cal Newport",
+    price: 2,
+    img: "ebook38.jpg",
+    filename: "ebook38.pdf",
+    format: "PDF",
+    description: `In an unorthodox approach, Georgetown University professor Cal Newport debunks the long-held belief that "follow your passion" is good advice, and sets out on a quest to discover the reality of how people end up loving their careers.
+
+Not only are pre-existing passions rare and have little to do with how most people end up loving their work, but a focus on passion over skill can be dangerous, leading to anxiety and chronic job hopping. Spending time with organic farmers, venture capitalists, screenwriters, freelance computer programmers, and others who admitted to deriving great satisfaction from their work, Newport uncovers the strategies they used and the pitfalls they avoided in developing their compelling careers.
+
+Cal reveals that matching your job to a pre-existing passion does not matter. Passion comes after you put in the hard work to become excellent at something valuable, not before. In other words, what you do for a living is much less important than how you do it.
+
+With a title taken from the comedian Steve Martin, who once said his advice for aspiring entertainers was to "be so good they can't ignore you," Cal Newport's clearly written manifesto is mandatory reading for anyone fretting about what to do with their life, or frustrated by their current job situation and eager to find a fresh new way to take control of their livelihood. He provides an evidence-based blueprint for creating work you love, and will change the way you think about careers, happiness, and the crafting of a remarkable life.`
+  },
+
+
+  {
+    id: 39,
+    title: "The Tipping Point",
+    author: "Malcolm Gladwell",
+    price: 2,
+    img: "ebook39.jpg",
+    filename: "ebook39.pdf",
+    format: "PDF",
+    description: `From the bestselling author of The Bomber Mafia: discover Malcolm Gladwell's breakthrough debut and explore the science behind viral trends in business, marketing, and human behavior. The tipping point is that magic moment when an idea, trend, or social behavior crosses a threshold, tips, and spreads like wildfire. Just as a single sick person can start an epidemic of the flu, so too can a small but precisely targeted push cause a fashion trend, the popularity of a new product, or a drop in the crime rate. This widely acclaimed bestseller, in which Malcolm Gladwell explores and brilliantly illuminates the tipping point phenomenon, is already changing the way people throughout the world think about selling products and disseminating ideas.
+
+“A wonderful page-turner about a fascinating idea that should affect the way every thinking person looks at the world.” —Michael Lewis`
+  },
+
+
+{
+    id: 40,
+    title: "Willpower Doesn't Work",
+    author: "Benjamin P. Hardy",
+    price: 2,
+    img: "ebook40.jpg",
+    filename: "ebook40.pdf",
+    format: "PDF",
+    description: ``
+  },
+
+
+{
+    id: 41,
+    title: "12 Rules for Life",
+    author: "Jordan B. Peterson",
+    price: 2,
+    img: "ebook41.jpg",
+    filename: "ebook41.pdf",
+    format: "PDF",
+    description: `OVER TEN MILLION COPIES SOLD
+
+#1 INTERNATIONAL BESTSELLER
+
+What are the most valuable things that everyone should know?
+
+Acclaimed clinical psychologist Jordan B Peterson has influenced the modern understanding of personality, and now he has become one of the world's most popular public thinkers, with his lectures on topics from the Bible to romantic relationships to mythology drawing tens of millions of viewers. In an era of unprecedented change and polarizing politics, his frank and refreshing message about the value of individual responsibility and ancient wisdom has resonated around the world.
+
+In this book, he provides twelve profound and practical principles for how to live a meaningful life, from setting your house in order before criticising others to comparing yourself to who you were yesterday, not someone else today. Happiness is a pointless goal, he shows us. Instead we must search for meaning, not for its own sake, but as a defence against the suffering that is intrinsic to our existence.
+
+Drawing on vivid examples from the author's clinical practice and personal life, cutting-edge psychology and philosophy, and lessons from humanity's oldest myths and stories, 12 Rules for Life offers a deeply rewarding antidote to the chaos in our lives: eternal truths applied to our modern problems.`
+  },
+
+
+{
+    id: 42,
+    title: "Discover Your True North",
+    author: "Bill George",
+    price: 2,
+    img: "ebook42.jpg",
+    filename: "ebook42.pdf",
+    format: "PDF",
+    description: `“One of the 25 Best Leadership Books of All-Time.” – Soundview
+
+The Leadership Classic, Discover Your True North, expanded for today's leaders
+Discover Your True North is the best-selling leadership classic that enables you to become an authentic leader by discovering your True North. Originally based on first-person interviews with 125 leaders, this book instantly became a must-read business classic when it was introduced in 2007. Now expanded and updated to introduce 48 new leaders and new learning about authentic global leaders, this revisited classic includes more diverse, global, and contemporary leaders of all ages. New case studies include Warren Buffett, Indra Nooyi, Arianna Huffington, Jack Ma, Paul Polman, Mike Bloomberg, Mark Zuckerberg, and many others. Alongside these studies, former Medtronic CEO Bill George continues to share his personal stories and his wisdom by describing how you can become the leader you want to be, with helpful exercises included throughout the book.
+
+Being a leader is about much more than title and management skills—it's fundamentally a question of who we are as human beings. Discover Your True North offers a concrete and comprehensive program for becoming an authentic leader, and shows how to chart your path to leadership success.
+
+Once you discover the purpose of your leadership, you'll find the true leader inside you. This book shows you how to use your natural leadership abilities to inspire and empower others to excellence in today's complex global world. Discover Your True North enables you to become the leader you were born to be, and stay on track of your True North.`
+  },
+
+
+{
+    id: 43,
+    title: "Emotional Intelligence",
+    author: "Daniel Goleman",
+    price: 2,
+    img: "ebook43.jpg",
+    filename: "ebook43.pdf",
+    format: "PDF",
+    description: `#1 BESTSELLER • The groundbreaking book that redefines what it means to be smart, with a new introduction by the author
+
+“A thoughtfully written, persuasive account explaining emotional intelligence and why it can be crucial.”—USA Today
+
+Everyone knows that high IQ is no guarantee of success, happiness, or virtue, but until Emotional Intelligence, we could only guess why. Daniel Goleman's brilliant report from the frontiers of psychology and neuroscience offers startling new insight into our “two minds”—the rational and the emotional—and how they together shape our destiny. But why is emotional intelligence important?
+
+Drawing on groundbreaking brain and behavioral research, Goleman shows the factors at work when people of high IQ flounder and those of modest IQ do surprisingly well. These factors, which include self-awareness, self-discipline, and empathy, add up to a different way of being smart—and they aren’t fixed at birth. Although shaped by childhood experiences, emotional intelligence can be nurtured and strengthened throughout our adulthood—with immediate benefits to our health, our relationships, and our work. 
+ 
+The twenty-fifth-anniversary edition of Emotional Intelligence could not come at a better time—we spend so much of our time online, more and more jobs are becoming automated and digitized, and our children are picking up new technology faster than we ever imagined. With a new introduction from the author, the twenty-fifth-anniversary edition prepares readers, now more than ever, to reach their fullest potential and stand out from the pack with the help of EI.`
+  },
+
+
+  {
+    id: 44,
+    title: "The Four Agreements",
+    author: "Don Miguel Ruiz",
+    price: 2,
+    img: "ebook44.jpg",
+    filename: "ebook44.pdf",
+    format: "PDF",
+    description: `The incredible New York Times and international bestselling guide to true happiness.
+
+“This book by don Miguel Ruiz, simple yet so powerful, has made a tremendous difference in how I think and act in every encounter.”—Oprah Winfrey
+
+In The Four Agreements, a perennial bestseller published in dozens of languages worldwide, don Miguel Ruiz reveals the source of self-limiting beliefs that rob us of joy and create needless suffering. Based on ancient Toltec wisdom, The Four Agreements offer a powerful code of conduct that can rapidly transform our lives to a new experience of freedom, true happiness, and love.
+
+“Don Miguel Ruiz’s book is a roadmap to enlightenment and freedom.”—Deepak Chopra, Author, The Seven Spiritual Laws of Success
+
+“An inspiring book with many great lessons.”—Wayne Dyer, Author, Real Magic
+
+“In the tradition of Castaneda, Ruiz distills essential Toltec wisdom, expressing with clarity and impeccability what it means for men and women to live as peaceful warriors in the modern world.”—Dan Millman, Author, Way of the Peaceful Warrior`
+  },
+
+
+  {
+    id: 45,
+    title: "Mastering Fear",
+    author: "Brandon Webb and John David Mann",
+    price: 2,
+    img: "ebook45.jpg",
+    filename: "ebook45.pdf",
+    format: "PDF",
+    description: `From New York Times bestselling author and former Navy SEAL Brandon Webb comes a simple yet powerful five-step guide to transforming your life by making your fears work for you instead of against you.
+
+Brandon Webb has run life-threatening missions in the world's worst trouble spots, whether that meant jumping out of airplanes, taking down hostile ships on the open sea, or rolling prisoners in the dead of night in the mountains of Afghanistan. As a Navy SEAL, he learned how to manage the natural impulse to panic in the face of terrifying situations. As media CEO and national television commentator, he has learned how to apply those same skills in civilian life.
+
+Drawing on his experiences in combat and business, along with colorful anecdotes from his vast network of super-achiever friends from astronauts to billionaires, Webb shows how people from all walks of life can stretch and transcend their boundaries and learn to use their fears as fuel to achieve more than they ever thought possible. "Fear can be a set of manacles, holding you prisoner," writes Webb. "Or it can be a slingshot, catapulting you on to greatness."
+
+The key, says Webb, is not to fight fear or try to beat it back, but to embrace and harness it. In the process, rather than being your adversary, your fear becomes a secret weapon that allows you to triumph in even the most adverse situations. In Mastering Fear, Webb and his bestselling coauthor John David Mann break this transformation down into five practical steps, creating a must-read manual for anyone looking for greater courage and mastery in their lives.`
+  },
+
+
+  {
+    id: 46,
+    title: "Positive Psychology in a Nutshell",
+    author: "Ilona Boniwell",
+    price: 2,
+    img: "ebook46.jpg",
+    filename: "ebook46.pdf",
+    format: "PDF",
+    description: `"The best general introduction to positive psychology available."
+Dr Alex Linley, University of Leicester, UK
+"Dr Ilona Boniwell is recognized as Europe’s leading researcher, innovator and thinker in the expanding world of positive psychology. Positive Psychology in a Nutshell offers something for everyone with an interest in discovering how to live optimally. This brilliant littlebook is packed with scientific evidence identifying the key ingredients that help to create a happy life. Read it and learn how to change yours for the better."
+Dr Cecilia d'Felice, Consultant Psychologist, Author and Columnist for The Times and The Metro
+
+"Positive Psychology in a Nutshell is a little gem of a book, beautifully and engagingly written, and having the marks of a cogent teacher who has mastered the contemporary structure, bounds and outreach of her field. This is a 'must read', and a welcome antidote for all thoseengaged in the caring professions."
+Richard Whitfield, Human Development Specialist, Educator, Poet and Chairman of Trustees of the Face-to-Face Trust
+
+"As good an introduction to positive psychology as you can read. A must-read book for all those involved in the education and health industries."
+Dr Anthony Seldon, Master, Wellington College, Berkshire, UK
+
+"Positive Psychology in a Nutshell is a comprehensive, user friendly, thoughtful introduction and critique of the field. Simply put, it is the best overview out there that can be read in a couple of sittings. Those with no psychology background find it fascinating and informative; those with serious credentials find it to be a credible overview and critique of the field."
+Dr Carol Kauffman, Co-founder and Director of the Coaching and Positive Psychology Initiative, Harvard Medical School, USA
+
+"In a nutshell, I could scarcely put down this intelligent, balanced and irresistible introduction to positive psychology!"
+Dr Sean Cameron, Co-Director, Practitioner Doctorate in Educational Psychology, University College London, UK
+
+"It is very readable, seductively so, and is no doubt as good an introduction to the subject as you can get ... Emotional wellbeing is complex and there are useful insights here to shore up the flabby phrases tossed around by politicians ... There are some parts of this book I will use and anyone who wants to find out about positive psychology should start here."
+Mike Shooter is a child psychiatrist and President of BACP, UK
+
+When you hear the words 'positive psychology' or 'the science of well-being', do you wonder what it's all about?
+
+'What makes us fulfilled?' and 'Is happiness necessary for a good life?' Discover the latest thinking on the topics of happiness, flow, optimism, motivation, character strengths and love, and learn how to apply it to your life. Ilona Boniwell presents an engaging overview of the science of optimal functioning and well-being, which combines real readability with a broad academic base applied to day-to-day life.
+
+Now fully updated and enhanced with new material on how to:
+
+Change your mindset
+Practice mindfulness
+Develop better resilience
+Enhance your well-being at work
+Adopt positive leadership
+Introducing positive psychology in a friendly, straightforward way, this international bestseller is peppered with many simple tools and tips for daily living that will help you love your life.`
+  },
+
+
+  {
+    id: 47,
+    title: "Rich Dad Poor Dad",
+    author: "Robert T. Kiyosaki",
+    price: 2,
+    img: "ebook47.jpg",
+    filename: "ebook47.pdf",
+    format: "PDF",
+    description: `It's been nearly 25 years since Robert Kiyosaki’s Rich Dad Poor Dad first made waves in the Personal Finance arena.
+It has since become the #1 Personal Finance book of all time... translated into dozens of languages and sold around the world.
+
+Rich Dad Poor Dad is Robert's story of growing up with two dads  his real father and the father of his best friend, his rich dad  and the ways in which both men shaped his thoughts about money and investing. The book explodes the myth that you need to earn a high income to be rich and explains the difference between working for money and having your money work for you.
+
+20 Years... 20/20 Hindsight
+
+In the 20th Anniversary Edition of this classic, Robert offers an update on what we’ve seen over the past 20 years related to money, investing, and the global economy. Sidebars throughout the book will take readers fast forward”  from 1997 to today  as Robert assesses how the principles taught by his rich dad have stood the test of time.
+
+In many ways, the messages of Rich Dad Poor Dad, messages that were criticized and challenged two decades ago, are more meaningful, relevant and important today than they were 20 years ago.
+
+As always, readers can expect that Robert will be candid, insightful... and continue to rock more than a few boats in his retrospective.
+
+
+Will there be a few surprises? Count on it.
+
+Rich Dad Poor Dad...
+
+ Explodes the myth that you need to earn a high income to become rich
+ Challenges the belief that your house is an asset
+ Shows parents why they can't rely on the school system to teach their kids
+about money
+ Defines once and for all an asset and a liability
+ Teaches you what to teach your kids about money for their future financial
+success
+
+Rich Dad Poor Dad is Robert's story of growing up with two dads  his real father and the father of his best friend, his rich dad  and the ways in which both men shaped his thoughts about money and investing. The book explodes the myth that you need to earn a high income to be rich and explains the difference between working for money and having your money work for you.
+
+20 Years... 20/20 Hindsight
+
+In the 20th Anniversary Edition of this classic, Robert offers an update on what we’ve seen over the past 20 years related to money, investing, and the global economy. Sidebars throughout the book will take readers fast forward”  from 1997 to today  as Robert assesses how the principles taught by his rich dad have stood the test of time.
+
+In many ways, the messages of Rich Dad Poor Dad, messages that were criticized and challenged two decades ago, are more meaningful, relevant and important today than they were 20 years ago.
+
+As always, readers can expect that Robert will be candid, insightful... and continue to rock more than a few boats in his retrospective.
+
+Will there be a few surprises? Count on it.
+
+Rich Dad Poor Dad...
+
+ Explodes the myth that you need to earn a high income to become rich
+ Challenges the belief that your house is an asset
+ Shows parents why they can't rely on the school system to teach their kids about money
+ Defines once and for all an asset and a liability
+ Teaches you what to teach your kids about money for their future financial success`
+  },
+
+
+  {
+    id: 48,
+    title: "Stillness Is the Key",
+    author: "Ryan Holiday",
+    price: 2,
+    img: "ebook48.jpg",
+    filename: "ebook48.pdf",
+    format: "PDF",
+    description: `Instant #1 New York Times Bestseller & Wall Street Journal Bestseller
+
+In The Obstacle Is the Way and Ego Is the Enemy, bestselling author Ryan Holiday made ancient wisdom wildly popular with a new generation of leaders in sports, politics, and technology. In his new book, Stillness Is the Key, Holiday draws on timeless Stoic and Buddhist philosophy to show why slowing down is the secret weapon for those charging ahead.
+
+All great leaders, thinkers, artists, athletes, and visionaries share one indelible quality. It enables them to conquer their tempers. To avoid distraction and discover great insights. To achieve happiness and do the right thing. Ryan Holiday calls it stillness--to be steady while the world spins around you.
+
+In this book, he outlines a path for achieving this ancient, but urgently necessary way of living. Drawing on a wide range of history's greatest thinkers, from Confucius to Seneca, Marcus Aurelius to Thich Nhat Hanh, John Stuart Mill to Nietzsche, he argues that stillness is not mere inactivity, but the doorway to self-mastery, discipline, and focus.
+
+Holiday also examines figures who exemplified the power of stillness: baseball player Sadaharu Oh, whose study of Zen made him the greatest home run hitter of all time; Winston Churchill, who in balancing his busy public life with time spent laying bricks and painting at his Chartwell estate managed to save the world from annihilation in the process; Fred Rogers, who taught generations of children to see what was invisible to the eye; Anne Frank, whose journaling and love of nature guided her through unimaginable adversity.
+
+More than ever, people are overwhelmed. They face obstacles and egos and competition. Stillness Is the Key offers a simple but inspiring antidote to the stress of 24/7 news and social media. The stillness that we all seek is the path to meaning, contentment, and excellence in a world that needs more of it than ever.`
+  },
+
+
+  {
+    id: 49,
+    title: "The Body Keeps the Score",
+    author: "Bessel van der Kolk",
+    price: 2,
+    img: "ebook49.jpg",
+    filename: "ebook49.pdf",
+    format: "PDF",
+    description: `#1 New York Times bestseller
+
+“Essential reading for anyone interested in understanding and treating traumatic stress and the scope of its impact on society.” —Alexander McFarlane, Director of the Centre for Traumatic Stress Studies
+
+A pioneering researcher transforms our understanding of trauma and offers a bold new paradigm for healing in this New York Times bestseller
+ 
+Trauma is a fact of life. Veterans and their families deal with the painful aftermath of combat; one in five Americans has been molested; one in four grew up with alcoholics; one in three couples have engaged in physical violence. Dr. Bessel van der Kolk, one of the world’s foremost experts on trauma, has spent over three decades working with survivors. In The Body Keeps the Score, he uses recent scientific advances to show how trauma literally reshapes both body and brain, compromising sufferers’ capacities for pleasure, engagement, self-control, and trust. He explores innovative treatments—from neurofeedback and meditation to sports, drama, and yoga—that offer new paths to recovery by activating the brain’s natural neuroplasticity. Based on Dr. van der Kolk’s own research and that of other leading specialists, The Body Keeps the Score exposes the tremendous power of our relationships both to hurt and to heal—and offers new hope for reclaiming lives.`
+  },
+
+
+  {
+    id: 50,
+    title: "The Mountain Is You",
+    author: "Brianna Wiest",
+    price: 2,
+    img: "ebook50.jpg",
+    filename: "ebook50.pdf",
+    format: "PDF",
+    description: `This is a book about self-sabatoge. Why we do it, when we do it, and how to stop doing it—for good. Coexisting but conflicting needs create self-sabotaging behaviors. This is why we resist efforts to change, often until they feel completely futile. But by extracting crucial insight from our most damaging habits, building emotional intelligence by better understanding our brains and bodies, releasing past experiences at a cellular level, and learning to act as our highest potential future selves, we can step out of our own way and into our potential. For centuries, the mountain has been used as a metaphor for the big challenges we face, especially ones that seem impossible to overcome. To scale our mountains, we actually have to do the deep internal work of excavating trauma, building resilience, and adjusting how we show up for the climb. In the end, it is not the mountain we master, but ourselves.`
+  },
+
+
+  {
+    id: 51,
+    title: "Deep Work",
+    author: "Cal Newport",
+    price: 2,
+    img: "ebook51.jpg",
+    filename: "ebook51.pdf",
+    format: "PDF",
+    description: `From a New York Times bestselling author, learn to master one of our economy’s rarest skills–the ability to focus–and achieve groundbreaking results.
+
+Deep work is the power to focus without distraction on a cognitively demanding task. It allows you to quickly master complicated information and produce better results in less time–a superpower in our increasingly competitive economy. In Deep Work, author and professor Cal Newport presents four rules for transforming your mind and habits to support this skill:
+
+1. Work Deeply 
+2. Embrace Boredom 
+3. Quit Social Media 
+4. Drain the Shallows 
+
+A mix of cultural criticism and actionable advice, Deep Work uses examples from Carl Jung to social media pioneers to demonstrate how great thinkers have focused their minds in a nonstop world.`
+  },
+
+
+  {
+    id: 52,
+    title: "Factfulness",
+    author: "Hans Rosling",
+    price: 2,
+    img: "ebook52.jpg",
+    filename: "ebook52.pdf",
+    format: "PDF",
+    description: `INSTANT NEW YORK TIMES BESTSELLER
+
+“One of the most important books I’ve ever read—an indispensable guide to thinking clearly about the world.” – Bill Gates
+
+“Hans Rosling tells the story of ‘the secret silent miracle of human progress’ as only he can. But Factfulness does much more than that. It also explains why progress is so often secret and silent and teaches readers how to see it clearly.” —Melinda Gates
+
+"Factfulness by Hans Rosling, an outstanding international public health expert, is a hopeful book about the potential for human progress when we work off facts rather than our inherent biases." - Former U.S. President Barack Obama
+
+Factfulness: The stress-reducing habit of only carrying opinions for which you have strong supporting facts.
+
+When asked simple questions about global trends—what percentage of the world’s population live in poverty; why the world’s population is increasing; how many girls finish school—we systematically get the answers wrong. So wrong that a chimpanzee choosing answers at random will consistently outguess teachers, journalists, Nobel laureates, and investment bankers.
+
+In Factfulness, Professor of International Health and global TED phenomenon Hans Rosling, together with his two long-time collaborators, Anna and Ola, offers a radical new explanation of why this happens. They reveal the ten instincts that distort our perspective—from our tendency to divide the world into two camps (usually some version of us and them) to the way we consume media (where fear rules) to how we perceive progress (believing that most things are getting worse).
+
+Our problem is that we don’t know what we don’t know, and even our guesses are informed by unconscious and predictable biases.
+
+It turns out that the world, for all its imperfections, is in a much better state than we might think. That doesn’t mean there aren’t real concerns. But when we worry about everything all the time instead of embracing a worldview based on facts, we can lose our ability to focus on the things that threaten us most.
+
+Inspiring and revelatory, filled with lively anecdotes and moving stories, Factfulness is an urgent and essential book that will change the way you see the world and empower you to respond to the crises and opportunities of the future.
+
+---
+
+“This book is my last battle in my life-long mission to fight devastating ignorance…Previously I armed myself with huge data sets, eye-opening software, an energetic learning style and a Swedish bayonet for sword-swallowing. It wasn’t enough. But I hope this book will be.” Hans Rosling, February 2017.`
+  },
+
+
+  {
+    id: 53,
+    title: "Great by Choice",
+    author: "Jim Collins and Morten T. Hansen",
+    price: 2,
+    img: "ebook53.jpg",
+    filename: "ebook53.pdf",
+    format: "PDF",
+    description: `Ten years after the worldwide bestseller Good to Great, Jim Collins returns withanother groundbreaking work, this time to ask: why do some companies thrive inuncertainty, even chaos, and others do not? Based on nine years of research,buttressed by rigorous analysis and infused with engaging stories, Collins andhis colleague Morten Hansen enumerate the principles for building a truly greatenterprise in unpredictable, tumultuous and fast-moving times. This book isclassic Collins: contrarian, data-driven and uplifting.`
+  },
+
+
+  {
+    id: 54,
+    title: "Love for Imperfect Things",
+    author: "Haemin Sunim",
+    price: 2,
+    img: "ebook54.jpg",
+    filename: "ebook54.pdf",
+    format: "PDF",
+    description: `Susan Cain, New York Times bestselling author of Quiet: "The world could surely use a little more love, a little more compassion, and a little more wisdom. In Love for Imperfect Things, Haemin Sunim shows us how to cultivate all three, and to find beauty in the most imperfect of things--including your very own self."
+
+A #1 internationally bestselling book of spiritual wisdom about learning to love ourselves, with all our imperfections, by the Buddhist author of The Things You Can See Only When You Slow Down
+
+Hearing the words "be good to yourself first, then to others" was like being struck by lightning.
+
+Many of us respond to the pressures of life by turning inward and ignoring problems, sometimes resulting in anxiety or depression. Others react by working harder at the office, at school, or at home, hoping that this will make ourselves and the people we love happier. But what if being yourself is enough? Just as we are advised on airplanes to take our own oxygen first before helping others, we must first be at peace with ourselves before we can be at peace with the world around us.
+
+In this beautiful follow-up to his international bestseller The Things You Can See Only When You Slow Down, Zen Buddhist monk Haemin Sunim turns his trademark wisdom to the art of self-care, arguing that only by accepting yourself--and the flaws that make you who you are--can you have compassionate and fulfilling relationships with your partner, your family, and your friends. With more than thirty-five full-color illustrations, Love for Imperfect Things will appeal to both your eyes and your heart, and help you learn to love yourself, your life, and everyone in it.
+
+When you care for yourself first, the world begins to find you worthy of care.`
+  },
+
+  {
+    id: 55,
+    title: "Outwitting the Devil",
+    author: "Napoleon Hill",
+    price: 2,
+    img: "ebook55.jpg",
+    filename: "ebook55.pdf",
+    format: "PDF",
+    description: `Napoleon Hill’s Outwitting the Devil®
+The Secret to Freedom and Success
+Secrets from the Vault, Written in 1938, Revealed Today
+An Official Publication of The Napoleon Hill Foundation®
+ 
+“Napoleon Hill was one of America’s great, influential thinkers who continues to have an enormous impact today.” —Steve Forbes, editor-in-chief of Forbes magazine
+ 
+Bestselling author Napoleon Hill reveals the seven principles of good that allow us to triumph over obstacles . . . and find success.
+ 
+Using his legendary ability to get to the root of human potential, Napoleon Hill digs deep to reveal how fear, procrastination, anger, and jealousy prevent us from realizing our personal goals. This long-suppressed parable, once considered too controversial to publish, was written by Hill in 1938 following the publication of his classic bestseller, Think and Grow Rich®. Annotated and edited for a contemporary audience by Rich Dad, Poor Dad and Three Feet from Gold coauthor Sharon Lechter, this book--now available in paper--is profound, powerful, resonant, and rich with insight.`
+  },
+
+
+  {
+    id: 56,
+    title: "Secrets of the Millionaire Mind",
+    author: "T. Harv Eker",
+    price: 2,
+    img: "ebook56.jpg",
+    filename: "ebook56.pdf",
+    format: "PDF",
+    description: `#1 New York Times, Wall Street Journal, and USA Today Bestseller!
+
+Secrets of the Millionaire Mind reveals the missing link between wanting success and achieving it!
+
+Have you ever wondered why some people seem to get rich easily, while others are destined for a life of financial struggle? Is the difference found in their education, intelligence, skills, timing, work habits, contacts, luck, or their choice of jobs, businesses, or investments?
+
+The shocking answer is: None of the above!
+
+In his groundbreaking Secrets of the Millionaire Mind, T. Harv Eker states: "Give me five minutes, and I can predict your financial future for the rest of your life!" Eker does this by identifying your "money and success blueprint." We all have a personal money blueprint ingrained in our subconscious minds, and it is this blueprint, more than anything, that will determine our financial lives. You can know everything about marketing, sales, negotiations, stocks, real estate, and the world of finance, but if your money blueprint is not set for a high level of success, you will never have a lot of money—and if somehow you do, you will most likely lose it! The good news is that now you can actually reset your money blueprint to create natural and automatic success.
+
+Secrets of the Millionaire Mind is two books in one. Part I explains how your money blueprint works. Through Eker's rare combination of street smarts, humor, and heart, you will learn how your childhood influences have shaped your financial destiny. You will also learn how to identify your own money blueprint and "revise" it to not only create success but, more important, to keep and continually grow it.
+
+In Part II you will be introduced to seventeen "Wealth Files," which describe exactly how rich people think and act differently than most poor and middle-class people. Each Wealth File includes action steps for you to practice in the real world in order to dramatically increase your income and accumulate wealth.
+
+If you are not doing as well financially as you would like, you will have to change your money blueprint. Unfortunately your current money blueprint will tend to stay with you for the rest of your life, unless you identify and revise it, and that's exactly what you will do with the help of this extraordinary book. According to T. Harv Eker, it's simple. If you think like rich people think and do what rich people do, chances are you'll get rich too!`
+  },
+
+
+
+  {
+    id: 57,
+    title: "Spark Joy",
+    author: "Marie Kondo",
+    price: 2,
+    img: "ebook57.jpg",
+    filename: "ebook57.pdf",
+    format: "PDF",
+    description: `NEW YORK TIMES BESTSELLER • The star of the hit Netflix series Tidying Up with Marie Kondo and author of The Life-Changing Magic of Tidying Up helps you visualize your ideal lifestyle.
+
+Japanese decluttering guru Marie Kondo has revolutionized homes—and lives—across the world. Now, Kondo presents an illustrated guide to usingher acclaimed KonMari Method to create a joy-filled home that works the way you need it to.
+
+Spark Joy features step-by-step folding illustrations for everything from shirts to socks, plus drawings of perfectly organized drawers and closets. Kondo also answers frequently asked questions, such as whether to keep “necessary” items that may not bring you joy. With guidance on specific categories including kitchen tools, cleaning supplies, hobby goods, digital photos, and even building your own personal “power spot” in your home, this comprehensive companion is sure to spark joy in anyone who wants to simplify their life.`
+  },
+
+
+  {
+    id: 58,
+    title: "The Purpose Driven Life",
+    author: "Rick Warren",
+    price: 2,
+    img: "ebook58.jpg",
+    filename: "ebook58.pdf",
+    format: "PDF",
+    description: `Discover and fulfill your God-given purpose by joining the more than thirty-five million others who have embarked on a spiritual journey that started with this #1 New York Times bestselling book by Pastor Rick Warren.
+
+Before you were born, God knew what your life had in store for you. His hope for you is to discover the life he created just for you--both here on earth, and forever in eternity. Let Rick Warren guide you as you learn to live out your true purpose.
+
+The Purpose Driven Life is more than a book; it's a road map for your spiritual journey. Combining thoughtful verses from Scripture with timely stories and perspectives from Warren's own life, The Purpose Driven Life will help you discover the answer to one of life's most important questions: What on earth am I here for?
+
+Throughout The Purpose Driven Life, Warren will teach you to spend time getting to know yourself and your creator in order to live your life to the fullest. Unlocking your true purpose will also reduce your stress, simplify your decisions, increase your satisfaction, and, most importantly, prepare you for eternity.
+
+Designed to be read over the course of forty-two days, The Purpose Driven Life will help you see the big picture, giving you a fresh perspective on the way that the pieces of your life fit together. Every chapter of The Purpose Driven Life provides a daily meditation and practical steps to help you uncover and live out your purpose, starting with exploring three essential questions:
+
+The Question of Existence: Why am I alive?
+The Question of Significance: Does my life matter?
+The Question of Purpose: What on earth am I here for?
+Each copy of The Purpose Driven Life also includes thoughtful discussion questions, audio Bible studies that go along with every chapter, and access to a supportive online community, giving you the opportunity to dive even deeper into each life-changing lesson.`
+  },
+
+
+  {
+    id: 59,
+    title: "The Things You Can See Only When You Slow Down",
+    author: "Haemin Sunim",
+    price: 2,
+    img: "ebook59.jpg",
+    filename: "ebook59.pdf",
+    format: "PDF",
+    description: `Forbes' "Greatest Self-Help Books of All Time"
+
+The multimillion-copy bestselling book of spiritual wisdom about the importance of slowing down in our fast-paced world, by the Buddhist author of Love for Imperfect Things
+
+“Wise advice on how to reflect and slow down.” —Elle
+
+Is it the world that’s busy, or is it my mind?
+
+The world moves fast, but that doesn’t mean we have to. This bestselling mindfulness guide by Haemin Sunim (which means “spontaneous wisdom”), a renowned Buddhist meditation teacher born in Korea and educated in the United States, illuminates a path to inner peace and balance amid the overwhelming demands of everyday life.
+
+By offering guideposts to well-being and happiness in eight areas—including relationships, love, and spirituality—Haemin Sunim emphasizes the importance of forging a deeper connection with others and being compassionate and forgiving toward ourselves. The more than twenty full-color illustrations that accompany his teachings serve as calming visual interludes, encouraging us to notice that when you slow down, the world slows down with you.`
+  },
+
+
+  {
+    id: 60,
+    title: "Unfu*k Yourself",
+    author: "Gary John Bishop",
+    price: 2,
+    img: "ebook60.jpg",
+    filename: "ebook60.pdf",
+    format: "PDF",
+    description: `Joining the ranks of The Life-Changing Magic of Not Giving a F*ck, The Subtle Art of Not Giving a F*ck, You Are a Badas*, and F*ck Feelings comes this refreshing, BS-free, self-empowerment guide that offers an honest, no-nonsense, tough-love approach to help you move past self-imposed limitations.
+
+Are you tired of feeling fu*ked up? If you are, Gary John Bishop has the answer. In this straightforward handbook, he gives you the tools and advice you need to demolish the slag weighing you down and become the truly unfu*ked version of yourself. ''Wake up to the miracle you are,'' he directs. ''Here's what you've forgotten: You're a fu*king miracle of being.'' It isn't other people that are standing in your way, it isn't even your circumstances that are blocking your ability to thrive, it's yourself and the negative self-talk you keep telling yourself.
+
+In Unfu*k Yourself, Bishop leads you through a series of seven assertions:
+
+I am willing.
+I am wired to win.
+I got this.
+I embrace the uncertainty.
+I am not my thoughts; I am what I do.
+I am relentless.
+I expect nothing and accept everything.
+
+Lead the life you were meant to have—Unfu*k Yourself.`
+  }
+
+
+
+
+  // { id: 60, title: "The Psychology of Money", author: "Carol Dweck", price: 2, img: "ebook10.jpg", filename: "ebook10.pdf" }
+];
+
+
+
+
+
+
+
+  const cart = [];
+
+  const productList = document.getElementById('product-list');
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+  const cartCount = document.getElementById('cart-count');
+  const cartIcon = document.getElementById('cart-icon');
+
+  function renderProducts() {
+  productList.innerHTML = ebooks.map(book => {
+    const inCart = cart.some(item => item.id === book.id);
+
+    return `
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="product-card">
+          <img src="${book.img}" alt="${book.title}" class="product-img" loading="lazy" style="cursor:pointer;" onclick="openEbookModal(${book.id})">
+          <div class="p-3">
+            <h6 class="fw-bold mb-1" style="cursor:pointer;" onclick="openEbookModal(${book.id})">${book.title}</h6>
+            <p class="text-muted mb-2" style="font-size: 0.9rem;">by ${book.author}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fw-bold" style="color: #e65100;">$${book.price.toFixed(2)}</span>
+
+              ${inCart
+                ? `
+                  <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-success" disabled>
+                      <i class="fas fa-check-circle me-1"></i>Added
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" title="Remove from cart" onclick="removeFromCart(${book.id})">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `
+                : `
+                  <button class="btn btn-sm btn-outline-primary" onclick="addToCart(${book.id})">
+                    <i class="fas fa-cart-plus me-1"></i>Add
+                  </button>
+                `
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+
+
+function openCartModal() {
+  const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+  cartModal.show();
+}
+
+
+
+
+function openEbookModal(id) {
+  const book = ebooks.find(b => b.id === id);
+  document.getElementById('modalTitle').textContent = book.title;
+  document.getElementById('modalAuthor').textContent = `by ${book.author}`;
+  document.getElementById('modalFormat').innerHTML = `
+    <span class="badge rounded-pill bg-secondary">
+      <i class="fas fa-file-pdf me-1"></i>${book.format}
+    </span>`;
+  document.getElementById('modalDescription').textContent = book.description;
+  document.getElementById('modalImage').src = book.img;
+  document.getElementById('modalImage').alt = book.title;
+
+  const modal = new bootstrap.Modal(document.getElementById('ebookModal'));
+  modal.show();
+}
+
+
+// 
+
+// Zoom functionality
+  const modalImage = document.getElementById('modalImage');
+  const zoomViewer = document.getElementById('zoomViewer');
+  const zoomImage = document.getElementById('zoomImage');
+
+  modalImage.addEventListener('click', () => {
+    zoomImage.src = modalImage.src;
+    zoomImage.alt = modalImage.alt;
+    zoomViewer.classList.remove('d-none');
+  });
+
+  zoomViewer.addEventListener('click', () => {
+    zoomViewer.classList.add('d-none');
+    zoomImage.src = "";
+  });
+
+
+// 
+
+
+
+  function addToCart(id) {
+    const book = ebooks.find(b => b.id === id);
+    if (!cart.some(item => item.id === id)) {
+      cart.push(book);
+    }
+    updateCart();
+    renderProducts(); // 👈 Add this line here
+    cartIcon.classList.add('cart-icon-animate');
+    setTimeout(() => cartIcon.classList.remove('cart-icon-animate'), 500);
+  }
+
+  function removeFromCart(id) {
+  const index = cart.findIndex(item => item.id === id);
+  if (index > -1) {
+    cart.splice(index, 1);
+  }
+  updateCart();
+  renderProducts(); // 👈 This updates the product button to "Add"
+}
+
+
+ function updateCart() {
+  cartCount.textContent = cart.length;
+const cartCountMobile = document.getElementById('cart-count-mobile');
+if (cartCountMobile) {
+  cartCountMobile.textContent = cart.length;
+}
+
+
+  // Render cart items
+  cartItems.innerHTML = cart.map(item => `
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <div>
+        ${item.title}
+        <small class="text-muted d-block">$${item.price}</small>
+      </div>
+      <button class="btn btn-sm text-danger" onclick="removeFromCart(${item.id})" title="Remove from cart">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+    </li>
+  `).join('');
+
+  // Calculate total
+  let total;
+if (cart.length === 5) {
+  total = 5;
+} else {
+  total = cart.reduce((sum, item) => sum + item.price, 0);
+}
+cartTotal.textContent = `$${total.toFixed(2)}`;
+}
+
+
+  renderProducts();
+  // Add event listener to checkout button
+  document.getElementById('checkout-btn').addEventListener('click', function () {
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+    window.location.href = 'payment.html';
+  });
+</script>
+
+
+<!-- scroll to top script -->
+<script>
+// Show/hide scroll to top button
+window.onscroll = function () {
+  const btn = document.getElementById("scrollTopBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.classList.add("show");
+  } else {
+    btn.classList.remove("show");
+  }
+};
+
+// Scroll to top
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+</script>
+
+<!-- modal -->
+
+
+</body>
+</html>

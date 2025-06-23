@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You – eBook Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #fff4f0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .thankyou-box {
+      max-width: 800px;
+      margin: 50px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .ebook-item {
+      background: #fefefe;
+      border: 1px solid #f5cfc2;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+    }
+    .btn-download {
+      background-color: #ffccbc;
+      color: #333;
+    }
+    .btn-download:hover {
+      background-color: #ffbfae;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="thankyou-box text-center">
+    <h2 class="mb-3"><i class="fas fa-check-circle text-success me-2"></i>Thank You for Your Purchase!</h2>
+    <p class="lead">Your eBook downloads are ready below.</p>
+
+    <hr class="my-4">
+
+    <h5 class="mb-3"><i class="fas fa-book-open me-2"></i>Your eBooks</h5>
+    <div id="download-list" class="text-start"></div>
+
+    <p class="text-muted mt-4 small">
+      Didn’t download? Email us at <a href="mailto:your@email.com">ebooksf4rsale@gmail.com</a> and we’ll resend your links.
+    </p>
+
+    <div class="mt-4">
+      <a href="index.html" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Store</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const paidOrder = JSON.parse(sessionStorage.getItem('paidOrder')) || { cart: [] };
+  const cart = paidOrder.cart || [];
+
+  const downloadList = document.getElementById('download-list');
+
+  if (cart.length === 0) {
+    downloadList.innerHTML = '<p>No eBooks found in your purchase.</p>';
+  } else {
+    downloadList.innerHTML = cart.map(item => `
+      <div class="ebook-item d-flex justify-content-between align-items-center">
+        <span>${item.title}</span>
+        <a class="btn btn-sm btn-download" href="${item.filename}" download>
+          <i class="fas fa-download me-1"></i>Download
+        </a>
+      </div>
+    `).join('');
+  }
+</script>
+
+</body>
+</html>
